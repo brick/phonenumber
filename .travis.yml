@@ -1,0 +1,23 @@
+language: php
+
+php:
+  - 5.4
+  - 5.5
+  - 5.6
+  - 7
+  - hhvm
+
+matrix:
+  allow_failures:
+    - php: 7
+    - php: hhvm
+
+before_script:
+  - composer install
+
+script:
+  - mkdir -p build/logs
+  - vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+
+after_script:
+  - vendor/bin/coveralls -v
