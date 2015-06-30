@@ -1,0 +1,25 @@
+{
+  "name": "brick/phonenumber",
+  "description": "Phone number library",
+  "type": "library",
+  "keywords": [
+    "Brick",
+    "PhoneNumber",
+    "Phone",
+    "Phone Number"
+  ],
+  "license": "MIT",
+  "require": {
+    "giggsey/libphonenumber-for-php": "7.*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "*",
+    "satooshi/php-coveralls": "dev-master"
+  },
+  "autoload": {
+    "psr-4": {
+      "Brick\\PhoneNumber\\": "src/",
+      "Brick\\PhoneNumber\\Tests\\": "tests/"
+    }
+  }
+}
