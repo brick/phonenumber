@@ -104,11 +104,21 @@ class PhoneNumber
     /**
      * Returns the type of this phone number.
      *
-     * @return string
+     * @return int One of the PhoneNumberType constants.
      */
     public function getNumberType()
     {
         return PhoneNumberUtil::getInstance()->getNumberType($this->phoneNumber);
+    }
+
+    /**
+     * @param int $format One of the PhoneNumberFormat constants.
+     *
+     * @return string
+     */
+    public function format($format)
+    {
+        return PhoneNumberUtil::getInstance()->format($this->phoneNumber, $format);
     }
 
     /**
