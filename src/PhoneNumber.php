@@ -84,7 +84,13 @@ class PhoneNumber
      */
     public function getRegionCode()
     {
-        return PhoneNumberUtil::getInstance()->getRegionCodeForNumber($this->phoneNumber);
+        $regionCode = PhoneNumberUtil::getInstance()->getRegionCodeForNumber($this->phoneNumber);
+
+        if ($regionCode === '001') {
+            return null;
+        }
+
+        return $regionCode;
     }
 
     /**
