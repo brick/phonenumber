@@ -50,6 +50,54 @@ class PhoneNumberTest extends \PHPUnit_Framework_TestCase
     const UNKNOWN_COUNTRY_CODE_NO_RAW_INPUT = '+212345';
 
     /**
+     * @dataProvider providerGetExampleNumber
+     *
+     * @param string   $regionCode
+     * @param string   $callingCode
+     * @param int|null $numberType
+     */
+    public function testGetExampleNumber($regionCode, $callingCode, $numberType = null)
+    {
+        if ($numberType === null) {
+            $phoneNumber = PhoneNumber::getExampleNumber($regionCode);
+        } else {
+            $phoneNumber = PhoneNumber::getExampleNumber($regionCode, $numberType);
+        }
+
+        $this->assertInstanceOf(PhoneNumber::class, $phoneNumber);
+        $this->assertTrue($phoneNumber->isValidNumber());
+
+        if ($numberType !== null) {
+            $this->assertSame($numberType, $phoneNumber->getNumberType());
+        }
+
+        $this->assertSame($callingCode, $phoneNumber->getCountryCode());
+        $this->assertSame($regionCode, $phoneNumber->getRegionCode());
+    }
+
+    /**
+     * @return array
+     */
+    public function providerGetExampleNumber()
+    {
+        return [
+            ['US', '1'],
+            ['FR', '33', PhoneNumberType::FIXED_LINE],
+            ['FR', '33', PhoneNumberType::MOBILE],
+            ['GB', '44', PhoneNumberType::FIXED_LINE],
+            ['GB', '44', PhoneNumberType::MOBILE],
+        ];
+    }
+
+    /**
+     * @expectedException \Brick\PhoneNumber\PhoneNumberException
+     */
+    public function testGetExampleNumberThrowsExceptionForInvalidRegionCode()
+    {
+        PhoneNumber::getExampleNumber('ZZ');
+    }
+
+    /**
      * @dataProvider getNationalNumberProvider
      *
      * @param string $expectedNationalNumber

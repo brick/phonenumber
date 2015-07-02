@@ -49,6 +49,25 @@ class PhoneNumber
     }
 
     /**
+     * @param string $regionCode      The region code.
+     * @param int    $phoneNumberType The phone number type, defaults to fixed line.
+     *
+     * @return PhoneNumber
+     *
+     * @throws PhoneNumberException If no example number is available for this region.
+     */
+    public static function getExampleNumber($regionCode, $phoneNumberType = PhoneNumberType::FIXED_LINE)
+    {
+        $phoneNumber = PhoneNumberUtil::getInstance()->getExampleNumberForType($regionCode, $phoneNumberType);
+
+        if ($phoneNumber === null) {
+            throw new PhoneNumberException('No example number is available for the given region.');
+        }
+
+        return new PhoneNumber($phoneNumber);
+    }
+
+    /**
      * Returns the country code of this PhoneNumber.
      *
      * The country code is a series of 1 to 3 digits, as defined per the E.164 recommendation.

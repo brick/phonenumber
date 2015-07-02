@@ -3,9 +3,9 @@
 namespace Brick\PhoneNumber;
 
 /**
- * Exception thrown when a number cannot be parsed.
+ * Exception thrown when a phone number cannot be parsed.
  */
-class PhoneNumberParseException extends \Exception
+class PhoneNumberParseException extends PhoneNumberException
 {
     /**
      * @param \Exception $e
