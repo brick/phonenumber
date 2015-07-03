@@ -1,6 +1,6 @@
 <?php
 
-namespace Brick\Tests\PhoneNumber;
+namespace Brick\PhoneNumber\Tests;
 
 use Brick\PhoneNumber\PhoneNumber;
 use Brick\PhoneNumber\PhoneNumberType;
