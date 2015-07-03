@@ -50,18 +50,18 @@ class PhoneNumber
 
     /**
      * @param string $regionCode      The region code.
-     * @param int    $phoneNumberType The phone number type, defaults to fixed line.
+     * @param int    $phoneNumberType The phone number type, defaults to a fixed line.
      *
      * @return PhoneNumber
      *
-     * @throws PhoneNumberException If no example number is available for this region.
+     * @throws PhoneNumberException If no example number is available for this region and type.
      */
     public static function getExampleNumber($regionCode, $phoneNumberType = PhoneNumberType::FIXED_LINE)
     {
         $phoneNumber = PhoneNumberUtil::getInstance()->getExampleNumberForType($regionCode, $phoneNumberType);
 
         if ($phoneNumber === null) {
-            throw new PhoneNumberException('No example number is available for the given region.');
+            throw new PhoneNumberException('No example number is available for the given region and type.');
         }
 
         return new PhoneNumber($phoneNumber);
@@ -113,7 +113,12 @@ class PhoneNumber
     }
 
     /**
-     * @return boolean
+     * Returns whether this phone number matches a valid pattern.
+     *
+     * Note this doesn't verify the number is actually in use,
+     * which is impossible to tell by just looking at a number itself.
+     *
+     * @return bool
      */
     public function isValidNumber()
     {
@@ -131,6 +136,8 @@ class PhoneNumber
     }
 
     /**
+     * Returns a formatted string representation of this phone number.
+     *
      * @param int $format One of the PhoneNumberFormat constants.
      *
      * @return string
