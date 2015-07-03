@@ -8,6 +8,8 @@ namespace Brick\PhoneNumber;
 class PhoneNumberParseException extends PhoneNumberException
 {
     /**
+     * @internal
+     *
      * @param \Exception $e
      *
      * @return PhoneNumberParseException
