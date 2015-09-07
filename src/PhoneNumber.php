@@ -148,12 +148,12 @@ class PhoneNumber
     }
 
     /**
-     * Returns a string representation of this phone number in international format.
+     * Returns a string representation of this phone number in international E164 format.
      *
      * @return string
      */
     public function __toString()
     {
-        return (string) $this->phoneNumber;
+        return $this->format(PhoneNumberFormat::E164);
     }
 }
