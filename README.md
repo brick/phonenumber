@@ -40,7 +40,14 @@ To obtain an instance of `PhoneNumber`, use the `parse()` method:
 The `parse()` method is quite permissive with numbers; it basically attempts to match a country code,
 and validates the length of the phone number for this country.
 
-If a number is really malformed, it throws a `PhoneNumberParseException`.
+If a number is really malformed, it throws a `PhoneNumberParseException`:
+
+    try {
+        $number = PhoneNumber::parse('+333');
+    }
+    catch (PhoneNumberParseException $e) {
+        // 'The string supplied is too short to be a phone number.'
+    }
 
 In most cases, it is recommended to perform an extra step of validation with `isValidNumber()`:
 
