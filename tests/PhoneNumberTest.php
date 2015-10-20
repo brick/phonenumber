@@ -98,7 +98,7 @@ class PhoneNumberTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider getNationalNumberProvider
+     * @dataProvider providerGetNationalNumber
      *
      * @param string $expectedNationalNumber
      * @param string $phoneNumber
@@ -111,7 +111,7 @@ class PhoneNumberTest extends \PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    public function getNationalNumberProvider()
+    public function providerGetNationalNumber()
     {
         return [
             ['6502530000', self::US_NUMBER],
@@ -122,7 +122,7 @@ class PhoneNumberTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider parseNationalNumberProvider
+     * @dataProvider providerParseNationalNumber
      *
      * @param string $expectedNumber
      * @param string $numberToParse
@@ -136,7 +136,7 @@ class PhoneNumberTest extends \PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    public function parseNationalNumberProvider()
+    public function providerParseNationalNumber()
     {
         return [
             // National prefix attached.
@@ -170,7 +170,7 @@ class PhoneNumberTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider getRegionCodeProvider
+     * @dataProvider providerGetRegionCode
      *
      * @param string $expectedRegion
      * @param string $phoneNumber
@@ -183,7 +183,7 @@ class PhoneNumberTest extends \PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    public function getRegionCodeProvider()
+    public function providerGetRegionCode()
     {
         return [
             ['BS', self::BS_NUMBER],
@@ -194,7 +194,7 @@ class PhoneNumberTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider getNumberTypeProvider
+     * @dataProvider providerGetNumberType
      *
      * @param string $numberType
      * @param string $phoneNumber
@@ -207,7 +207,7 @@ class PhoneNumberTest extends \PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    public function getNumberTypeProvider()
+    public function providerGetNumberType()
     {
         return [
             [PhoneNumberType::PREMIUM_RATE, self::US_PREMIUM],
@@ -255,7 +255,7 @@ class PhoneNumberTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider isValidNumberProvider
+     * @dataProvider providerIsValidNumber
      *
      * @param string $phoneNumber
      */
@@ -267,7 +267,7 @@ class PhoneNumberTest extends \PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    public function isValidNumberProvider()
+    public function providerIsValidNumber()
     {
         return [
             [self::US_NUMBER],
@@ -280,7 +280,7 @@ class PhoneNumberTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider isNotValidNumberProvider
+     * @dataProvider providerIsNotValidNumber
      *
      * @param string $phoneNumber
      */
@@ -292,7 +292,7 @@ class PhoneNumberTest extends \PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    public function isNotValidNumberProvider()
+    public function providerIsNotValidNumber()
     {
         return [
             [self::US_LOCAL_NUMBER],
@@ -306,7 +306,7 @@ class PhoneNumberTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider parseExceptionProvider
+     * @dataProvider providerParseException
      * @expectedException \Brick\PhoneNumber\PhoneNumberParseException
      *
      * @param string $phoneNumber
@@ -320,7 +320,7 @@ class PhoneNumberTest extends \PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    public function parseExceptionProvider()
+    public function providerParseException()
     {
         return [
             // Empty string.
@@ -363,7 +363,7 @@ class PhoneNumberTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider formatNumberProvider
+     * @dataProvider providerFormatNumber
      *
      * @param string $expected
      * @param string $phoneNumber
@@ -377,7 +377,7 @@ class PhoneNumberTest extends \PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    public function formatNumberProvider()
+    public function providerFormatNumber()
     {
         return [
             // US
@@ -467,6 +467,41 @@ class PhoneNumberTest extends \PHPUnit_Framework_TestCase
             ['01 821 123 4567', self::MX_NUMBER2, PhoneNumberFormat::NATIONAL],
             ['+52 821 123 4567', self::MX_NUMBER2, PhoneNumberFormat::INTERNATIONAL],
             ['+528211234567', self::MX_NUMBER2, PhoneNumberFormat::E164]
+        ];
+    }
+
+    /**
+     * @dataProvider providerFormatForCallingFrom
+     *
+     * @param string $phoneNumber
+     * @param string $countryCode
+     * @param string $expected
+     */
+    public function testFormatForCallingFrom($phoneNumber, $countryCode, $expected)
+    {
+        $this->assertSame($expected, PhoneNumber::parse($phoneNumber)->formatForCallingFrom($countryCode));
+    }
+
+    /**
+     * @return array
+     */
+    public function providerFormatForCallingFrom()
+    {
+        return [
+            ['+33123456789', 'FR', '01 23 45 67 89'],
+            ['+33123456789', 'BE', '00 33 1 23 45 67 89'],
+            ['+33123456789', 'CH', '00 33 1 23 45 67 89'],
+            ['+33123456789', 'DE', '00 33 1 23 45 67 89'],
+            ['+33123456789', 'GB', '00 33 1 23 45 67 89'],
+            ['+33123456789', 'US', '011 33 1 23 45 67 89'],
+            ['+33123456789', 'CA', '011 33 1 23 45 67 89'],
+            ['+16502530000', 'US', '1 (650) 253-0000'],
+            ['+16502530000', 'CA', '1 (650) 253-0000'],
+            ['+16502530000', 'FR', '00 1 650-253-0000'],
+            ['+16502530000', 'BE', '00 1 650-253-0000'],
+            ['+16502530000', 'CH', '00 1 650-253-0000'],
+            ['+16502530000', 'DE', '00 1 650-253-0000'],
+            ['+16502530000', 'GB', '00 1 650-253-0000'],
         ];
     }
 }

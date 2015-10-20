@@ -148,6 +148,18 @@ class PhoneNumber
     }
 
     /**
+     * Formats this phone number for out-of-country dialing purposes.
+     *
+     * @param string $regionCode The ISO 3166-1 alpha-2 country code
+     *
+     * @return string
+     */
+    public function formatForCallingFrom($regionCode)
+    {
+        return PhoneNumberUtil::getInstance()->formatOutOfCountryCallingNumber($this->phoneNumber, $regionCode);
+    }
+
+    /**
      * Returns a string representation of this phone number in international E164 format.
      *
      * @return string
