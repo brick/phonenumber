@@ -81,7 +81,7 @@ prefix when required. This is what `formatForCallingFrom()` does:
     $number->formatForCallingFrom('FR'); // 00 44 7123 456789
     $number->formatForCallingFrom('US'); // 011 44 7123 456789
 
-### Number types
+## Number types
 
 In certain cases, it is possible to know the type of a phone number (fixed line, mobile phone, etc.), using
 the `getNumberType()` method, which returns a constant from the `PhoneNumberType` class:
