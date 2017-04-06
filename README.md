@@ -91,3 +91,26 @@ the `getNumberType()` method, which returns a constant from the `PhoneNumberType
 
 If the type is unknown, the `PhoneNumberType::UNKNOWN` value is returned.
 Check the `PhoneNumberType` class for all possible values.
+
+## Number information
+
+You can extract the following information from a phone number:
+
+    $number = PhoneNumber::parse('+447123456789');
+    echo $number->getRegionCode(); // GB
+    echo $number->getCountryCode(); // 44
+    echo $number->getNationalNumber(); // 7123456789
+
+## Example numbers
+
+You can get an example number for a country code and an optional number type (defaults to fixed line).
+This can be useful to use as a placeholder in an input field, for example:
+
+    echo PhoneNumber::getExampleNumber('FR'); // +33123456789
+    echo PhoneNumber::getExampleNumber('FR', PhoneNumberType::MOBILE); // +33612345678
+
+The return type of `getExampleNumber()` is a `PhoneNumber` instance, so you can format it as you like:
+
+    echo PhoneNumber::getExampleNumber('FR')->formatForCallingFrom('FR'); // 01 23 45 67 89
+
+If no example phone number is available for the country code / number type combination, a `PhoneNumberException` is thrown.
