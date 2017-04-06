@@ -22,7 +22,7 @@ Just define the following requirement in your `composer.json` file:
 
     {
         "require": {
-            "brick/phonenumber": "dev-master"
+            "brick/phonenumber": "^0.1"
         }
     }
 
