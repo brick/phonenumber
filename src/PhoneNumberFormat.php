@@ -17,7 +17,7 @@ class PhoneNumberFormat
      *
      * Example: `+41446681800`.
      */
-    const E164 = 0;
+    public const E164 = 0;
 
     /**
      * The international format.
@@ -27,7 +27,7 @@ class PhoneNumberFormat
      *
      * Example: `+41 44 668 1800`.
      */
-    const INTERNATIONAL = 1;
+    public const INTERNATIONAL = 1;
 
     /**
      * The national format.
@@ -37,7 +37,7 @@ class PhoneNumberFormat
      *
      * Example: `044 668 1800`.
      */
-    const NATIONAL = 2;
+    public const NATIONAL = 2;
 
     /**
      * The RFC 3966 format.
@@ -46,5 +46,5 @@ class PhoneNumberFormat
      *
      * Example: `tel:+41-44-668-1800`.
      */
-    const RFC3966 = 3;
+    public const RFC3966 = 3;
 }
