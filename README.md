@@ -1,5 +1,4 @@
-Brick\PhoneNumber
-=================
+# Brick\PhoneNumber
 
 <img src="https://raw.githubusercontent.com/brick/brick/master/logo.png" alt="" align="left" height="64">
 
@@ -18,18 +17,35 @@ It provides an equivalent functionality, with the following implementation diffe
 - `PhoneNumber` is an immutable class; it can be safely passed around without having to worry about the risk for it to be changed;
 - `PhoneNumber` is not just a mere data container, but provides all the methods to parse, format and validate phone numbers; it transparently encapsulates `PhoneNumberUtil`.
 
-# Installation
+## Installation
 
 This library is installable via [Composer](https://getcomposer.org/).
 Just define the following requirement in your `composer.json` file:
 
     {
         "require": {
-            "brick/phonenumber": "^0.1"
+            "brick/phonenumber": "0.2.*"
         }
     }
 
-# Quick start
+## Requirements
+
+This library requires PHP 7.1 or later. for PHP 5.6 and PHP 7.0 support, use version `0.1`.
+
+## Project status & release process
+
+While this library is still under development, it is well tested and should be stable enough to use in production environments.
+
+The current releases are numbered `0.x.y`. When a non-breaking change is introduced (adding new methods, optimizing existing code, etc.), `y` is incremented.
+
+**When a breaking change is introduced, a new `0.x` version cycle is always started.**
+
+It is therefore safe to lock your project to a given release cycle, such as `0.2.*`.
+
+If you need to upgrade to a newer release cycle, check the [release history](https://github.com/brick/phonenumber/releases) for a list of changes introduced by each further `0.x.0` version.
+
+
+## Quick start
 
 All the classes lie in the `Brick\PhoneNumber` namespace.
 
@@ -38,7 +54,7 @@ To obtain an instance of `PhoneNumber`, use the `parse()` method:
 - Using an international number: `PhoneNumber::parse('+336123456789')`;
 - Using a national number and a country code: `PhoneNumber::parse('01 23 45 67 89', 'FR')`;
 
-## Validating a number
+### Validating a number
 
 The `parse()` method is quite permissive with numbers; it basically attempts to match a country code,
 and validates the length of the phone number for this country.
@@ -62,9 +78,9 @@ As a rule of thumb, do the following:
 - When the number comes from a user input, call `isValidNumber()` (don't forget to check for `PhoneNumberParseException`, too)
 - When the number is later retrieved from your database, but has been validated before, do not use `isValidNumber()`
 
-## Formatting a number
+### Formatting a number
 
-### Basic formatting
+#### Basic formatting
 
 You can use `format()` with constants from the `PhoneNumberFormat` class:
 
@@ -74,7 +90,7 @@ You can use `format()` with constants from the `PhoneNumberFormat` class:
     $number->format(PhoneNumberFormat::NATIONAL); // 044 668 18 00
     $number->format(PhoneNumberFormat::RFC3966); // tel:+41-44-668-18-00
 
-### Formatting to call from another country
+#### Formatting to call from another country
 
 You may want to present a phone number to an audience in a specific country, with the correct international 
 prefix when required. This is what `formatForCallingFrom()` does:
@@ -84,7 +100,7 @@ prefix when required. This is what `formatForCallingFrom()` does:
     $number->formatForCallingFrom('FR'); // 00 44 7123 456789
     $number->formatForCallingFrom('US'); // 011 44 7123 456789
 
-## Number types
+### Number types
 
 In certain cases, it is possible to know the type of a phone number (fixed line, mobile phone, etc.), using
 the `getNumberType()` method, which returns a constant from the `PhoneNumberType` class:
@@ -95,7 +111,7 @@ the `getNumberType()` method, which returns a constant from the `PhoneNumberType
 If the type is unknown, the `PhoneNumberType::UNKNOWN` value is returned.
 Check the `PhoneNumberType` class for all possible values.
 
-## Number information
+### Number information
 
 You can extract the following information from a phone number:
 
@@ -104,7 +120,7 @@ You can extract the following information from a phone number:
     echo $number->getCountryCode(); // 44
     echo $number->getNationalNumber(); // 7123456789
 
-## Example numbers
+### Example numbers
 
 You can get an example number for a country code and an optional number type (defaults to fixed line).
 This can be useful to use as a placeholder in an input field, for example:
