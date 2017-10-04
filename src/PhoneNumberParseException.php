@@ -14,7 +14,7 @@ class PhoneNumberParseException extends PhoneNumberException
      *
      * @return PhoneNumberParseException
      */
-    public static function wrap(\Exception $e)
+    public static function wrap(\Exception $e) : PhoneNumberParseException
     {
         return new PhoneNumberParseException($e->getMessage(), $e->getCode(), $e);
     }

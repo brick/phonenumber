@@ -37,7 +37,7 @@ class PhoneNumber
      *
      * @throws PhoneNumberParseException
      */
-    public static function parse($phoneNumber, $regionCode = null)
+    public static function parse(string $phoneNumber, string $regionCode = null) : PhoneNumber
     {
         try {
             return new PhoneNumber(
@@ -56,7 +56,7 @@ class PhoneNumber
      *
      * @throws PhoneNumberException If no example number is available for this region and type.
      */
-    public static function getExampleNumber($regionCode, $phoneNumberType = PhoneNumberType::FIXED_LINE)
+    public static function getExampleNumber(string $regionCode, int $phoneNumberType = PhoneNumberType::FIXED_LINE) : PhoneNumber
     {
         $phoneNumber = PhoneNumberUtil::getInstance()->getExampleNumberForType($regionCode, $phoneNumberType);
 
@@ -74,7 +74,7 @@ class PhoneNumber
      *
      * @return string
      */
-    public function getCountryCode()
+    public function getCountryCode() : string
     {
         return (string) $this->phoneNumber->getCountryCode();
     }
@@ -86,7 +86,7 @@ class PhoneNumber
      *
      * @return string
      */
-    public function getNationalNumber()
+    public function getNationalNumber() : string
     {
         return $this->phoneNumber->getNationalNumber();
     }
@@ -101,7 +101,7 @@ class PhoneNumber
      *
      * @return string|null The region code, or null if the number does not map to a geographic region.
      */
-    public function getRegionCode()
+    public function getRegionCode() : ?string
     {
         $regionCode = PhoneNumberUtil::getInstance()->getRegionCodeForNumber($this->phoneNumber);
 
@@ -120,7 +120,7 @@ class PhoneNumber
      *
      * @return bool
      */
-    public function isValidNumber()
+    public function isValidNumber() : bool
     {
         return PhoneNumberUtil::getInstance()->isValidNumber($this->phoneNumber);
     }
@@ -130,7 +130,7 @@ class PhoneNumber
      *
      * @return int One of the PhoneNumberType constants.
      */
-    public function getNumberType()
+    public function getNumberType() : int
     {
         return PhoneNumberUtil::getInstance()->getNumberType($this->phoneNumber);
     }
@@ -142,7 +142,7 @@ class PhoneNumber
      *
      * @return string
      */
-    public function format($format)
+    public function format(int $format) : string
     {
         return PhoneNumberUtil::getInstance()->format($this->phoneNumber, $format);
     }
@@ -154,7 +154,7 @@ class PhoneNumber
      *
      * @return string
      */
-    public function formatForCallingFrom($regionCode)
+    public function formatForCallingFrom(string $regionCode) : string
     {
         return PhoneNumberUtil::getInstance()->formatOutOfCountryCallingNumber($this->phoneNumber, $regionCode);
     }
@@ -164,7 +164,7 @@ class PhoneNumber
      *
      * @return string
      */
-    public function __toString()
+    public function __toString() : string
     {
         return $this->format(PhoneNumberFormat::E164);
     }
