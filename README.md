@@ -22,11 +22,13 @@ It provides an equivalent functionality, with the following implementation diffe
 This library is installable via [Composer](https://getcomposer.org/).
 Just define the following requirement in your `composer.json` file:
 
-    {
-        "require": {
-            "brick/phonenumber": "0.2.*"
-        }
+```json
+{
+    "require": {
+        "brick/phonenumber": "0.2.*"
     }
+}
+```
 
 ## Requirements
 
@@ -61,17 +63,21 @@ and validates the length of the phone number for this country.
 
 If a number is really malformed, it throws a `PhoneNumberParseException`:
 
-    try {
-        $number = PhoneNumber::parse('+333');
-    }
-    catch (PhoneNumberParseException $e) {
-        // 'The string supplied is too short to be a phone number.'
-    }
+```php
+try {
+    $number = PhoneNumber::parse('+333');
+}
+catch (PhoneNumberParseException $e) {
+    // 'The string supplied is too short to be a phone number.'
+}
+```
 
 In most cases, it is recommended to perform an extra step of validation with `isValidNumber()`:
 
-    PhoneNumber::parse('+33123456789')->isValidNumber(); // true
-    PhoneNumber::parse('+331234567890')->isValidNumber(); // false
+```php
+PhoneNumber::parse('+33123456789')->isValidNumber(); // true
+PhoneNumber::parse('+331234567890')->isValidNumber(); // false
+```
 
 As a rule of thumb, do the following:
 
@@ -84,29 +90,35 @@ As a rule of thumb, do the following:
 
 You can use `format()` with constants from the `PhoneNumberFormat` class:
 
-    $number = PhoneNumber::parse('+41446681800');
-    $number->format(PhoneNumberFormat::E164); // +41446681800
-    $number->format(PhoneNumberFormat::INTERNATIONAL); // +41 44 668 18 00
-    $number->format(PhoneNumberFormat::NATIONAL); // 044 668 18 00
-    $number->format(PhoneNumberFormat::RFC3966); // tel:+41-44-668-18-00
+```php
+$number = PhoneNumber::parse('+41446681800');
+$number->format(PhoneNumberFormat::E164); // +41446681800
+$number->format(PhoneNumberFormat::INTERNATIONAL); // +41 44 668 18 00
+$number->format(PhoneNumberFormat::NATIONAL); // 044 668 18 00
+$number->format(PhoneNumberFormat::RFC3966); // tel:+41-44-668-18-00
+```
 
 #### Formatting to call from another country
 
 You may want to present a phone number to an audience in a specific country, with the correct international 
 prefix when required. This is what `formatForCallingFrom()` does:
 
-    $number = PhoneNumber::parse('+447123456789');
-    $number->formatForCallingFrom('GB'); // 07123 456789
-    $number->formatForCallingFrom('FR'); // 00 44 7123 456789
-    $number->formatForCallingFrom('US'); // 011 44 7123 456789
+```php
+$number = PhoneNumber::parse('+447123456789');
+$number->formatForCallingFrom('GB'); // 07123 456789
+$number->formatForCallingFrom('FR'); // 00 44 7123 456789
+$number->formatForCallingFrom('US'); // 011 44 7123 456789
+```
 
 ### Number types
 
 In certain cases, it is possible to know the type of a phone number (fixed line, mobile phone, etc.), using
 the `getNumberType()` method, which returns a constant from the `PhoneNumberType` class:
 
-    PhoneNumber::parse('+336123456789')->getNumberType(); // PhoneNumberType::MOBILE
-    PhoneNumber::parse('+33123456789')->getNumberType(); // PhoneNumberType::FIXED_LINE
+```php
+PhoneNumber::parse('+336123456789')->getNumberType(); // PhoneNumberType::MOBILE
+PhoneNumber::parse('+33123456789')->getNumberType(); // PhoneNumberType::FIXED_LINE
+```
 
 If the type is unknown, the `PhoneNumberType::UNKNOWN` value is returned.
 Check the `PhoneNumberType` class for all possible values.
@@ -115,21 +127,27 @@ Check the `PhoneNumberType` class for all possible values.
 
 You can extract the following information from a phone number:
 
-    $number = PhoneNumber::parse('+447123456789');
-    echo $number->getRegionCode(); // GB
-    echo $number->getCountryCode(); // 44
-    echo $number->getNationalNumber(); // 7123456789
+```php
+$number = PhoneNumber::parse('+447123456789');
+echo $number->getRegionCode(); // GB
+echo $number->getCountryCode(); // 44
+echo $number->getNationalNumber(); // 7123456789
+```
 
 ### Example numbers
 
 You can get an example number for a country code and an optional number type (defaults to fixed line).
 This can be useful to use as a placeholder in an input field, for example:
 
-    echo PhoneNumber::getExampleNumber('FR'); // +33123456789
-    echo PhoneNumber::getExampleNumber('FR', PhoneNumberType::MOBILE); // +33612345678
+```php
+echo PhoneNumber::getExampleNumber('FR'); // +33123456789
+echo PhoneNumber::getExampleNumber('FR', PhoneNumberType::MOBILE); // +33612345678
+```
 
 The return type of `getExampleNumber()` is a `PhoneNumber` instance, so you can format it as you like:
 
-    echo PhoneNumber::getExampleNumber('FR')->formatForCallingFrom('FR'); // 01 23 45 67 89
+```php
+echo PhoneNumber::getExampleNumber('FR')->formatForCallingFrom('FR'); // 01 23 45 67 89
+```
 
 If no example phone number is available for the country code / number type combination, a `PhoneNumberException` is thrown.
