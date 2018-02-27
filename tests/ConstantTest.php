@@ -5,10 +5,12 @@ namespace Brick\PhoneNumber\Tests;
 use Brick\PhoneNumber\PhoneNumberFormat;
 use Brick\PhoneNumber\PhoneNumberType;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Tests that the constants are up-to-date with libphonenumber.
  */
-class ConstantTest extends \PHPUnit_Framework_TestCase
+class ConstantTest extends TestCase
 {
     /**
      * Compares the constants of two classes.

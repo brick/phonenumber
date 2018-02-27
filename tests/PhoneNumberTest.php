@@ -6,10 +6,12 @@ use Brick\PhoneNumber\PhoneNumber;
 use Brick\PhoneNumber\PhoneNumberType;
 use Brick\PhoneNumber\PhoneNumberFormat;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Tests for class PhoneNumber.
  */
-class PhoneNumberTest extends \PHPUnit_Framework_TestCase
+class PhoneNumberTest extends TestCase
 {
     const ALPHA_NUMERIC_NUMBER = '+180074935247';
     const AE_UAN = '+971600123456';
