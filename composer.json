@@ -19,7 +19,11 @@
   },
   "autoload": {
     "psr-4": {
-      "Brick\\PhoneNumber\\": "src/",
+      "Brick\\PhoneNumber\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
       "Brick\\PhoneNumber\\Tests\\": "tests/"
     }
   }
