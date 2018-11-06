@@ -5,8 +5,12 @@ php:
   - 7.2
   - 7.3
 
+env:
+  - LIBPHONENUMBER_VERSION=7.*
+  - LIBPHONENUMBER_VERSION=8.*
+
 before_script:
-  - composer install
+  - composer require giggsey/libphonenumber-for-php:${LIBPHONENUMBER_VERSION}
 
 script:
   - mkdir -p build/logs
