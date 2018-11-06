@@ -64,6 +64,9 @@ and validates the length of the phone number for this country.
 If a number is really malformed, it throws a `PhoneNumberParseException`:
 
 ```php
+use Brick\PhoneNumber\PhoneNumber;
+use Brick\PhoneNumber\PhoneNumberParseException;
+
 try {
     $number = PhoneNumber::parse('+333');
 }
@@ -75,20 +78,21 @@ catch (PhoneNumberParseException $e) {
 In most cases, it is recommended to perform an extra step of validation with `isValidNumber()`:
 
 ```php
-PhoneNumber::parse('+33123456789')->isValidNumber(); // true
-PhoneNumber::parse('+331234567890')->isValidNumber(); // false
+if (! $number->isValidNumber()) {
+    // ...
+}
 ```
 
 As a rule of thumb, do the following:
 
-- When the number comes from a user input, call `isValidNumber()` (don't forget to check for `PhoneNumberParseException`, too)
-- When the number is later retrieved from your database, but has been validated before, do not use `isValidNumber()`
+- When the number comes from user input, do a full validation: `parse()` and catch `PhoneNumberParseException`, then call `isValidNumber()` if no exception occurred;
+- When the number is later retrieved from your database, and has been validated before, you can just perform a blind `parse()`.
 
 ### Formatting a number
 
 #### Basic formatting
 
-You can use `format()` with constants from the `PhoneNumberFormat` class:
+You can use `format()` with constants from the [PhoneNumberFormat](https://github.com/brick/phonenumber/blob/0.2.0/src/PhoneNumberFormat.php) class:
 
 ```php
 $number = PhoneNumber::parse('+41446681800');
@@ -113,7 +117,7 @@ $number->formatForCallingFrom('US'); // 011 44 7123 456789
 ### Number types
 
 In certain cases, it is possible to know the type of a phone number (fixed line, mobile phone, etc.), using
-the `getNumberType()` method, which returns a constant from the `PhoneNumberType` class:
+the `getNumberType()` method, which returns a constant from the [PhoneNumberType](https://github.com/brick/phonenumber/blob/0.2.0/src/PhoneNumberType.php) class:
 
 ```php
 PhoneNumber::parse('+336123456789')->getNumberType(); // PhoneNumberType::MOBILE
