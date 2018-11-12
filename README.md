@@ -76,17 +76,22 @@ catch (PhoneNumberParseException $e) {
 }
 ```
 
-In most cases, it is recommended to perform an extra step of validation with `isValidNumber()`:
+In most cases, it is recommended to perform an extra step of validation with `isValidNumber()` or `isPossibleNumber()`:
 
 ```php
-if (! $number->isValidNumber()) {
-    // ...
+if (! $number->isPossibleNumber()) {
+    // a more lenient and faster check than `isValidNumber()`
 }
+
+if (! $number->isValidNumber()) {
+    // strict check relying on up-to-date metadata library
+}
+
 ```
 
 As a rule of thumb, do the following:
 
-- When the number comes from user input, do a full validation: `parse()` and catch `PhoneNumberParseException`, then call `isValidNumber()` if no exception occurred;
+- When the number comes from user input, do a full validation: `parse()` and catch `PhoneNumberParseException`, then call `isValidNumber()` (or `isPossibleNumber()` for a more lenient check) if no exception occurred;
 - When the number is later retrieved from your database, and has been validated before, you can just perform a blind `parse()`.
 
 ### Formatting a number

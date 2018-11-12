@@ -115,6 +115,18 @@ class PhoneNumber
     }
 
     /**
+     * Returns whether this phone number is a possible number.
+     *
+     * Note this provides a more lenient and faster check than `isValidNumber()`.
+     *
+     * @return bool
+     */
+    public function isPossibleNumber() : bool
+    {
+        return PhoneNumberUtil::getInstance()->isPossibleNumber($this->phoneNumber);
+    }
+
+    /**
      * Returns whether this phone number matches a valid pattern.
      *
      * Note this doesn't verify the number is actually in use,
