@@ -257,7 +257,28 @@ class PhoneNumberTest extends TestCase
     }
 
     /**
-     * @dataProvider providerIsValidNumber
+     * @dataProvider providerValidNumbers
+     * @dataProvider providerPossibleButNotValidNumbers
+     *
+     * @param string $phoneNumber
+     */
+    public function testIsPossibleNumber($phoneNumber)
+    {
+        $this->assertTrue(PhoneNumber::parse($phoneNumber)->isPossibleNumber());
+    }
+
+    /**
+     * @dataProvider providerNotPossibleNumbers
+     *
+     * @param string $phoneNumber
+     */
+    public function testIsNotPossibleNumber($phoneNumber)
+    {
+        $this->assertFalse(PhoneNumber::parse($phoneNumber)->isPossibleNumber());
+    }
+
+    /**
+     * @dataProvider providerValidNumbers
      *
      * @param string $phoneNumber
      */
@@ -267,9 +288,20 @@ class PhoneNumberTest extends TestCase
     }
 
     /**
+     * @dataProvider providerNotPossibleNumbers
+     * @dataProvider providerPossibleButNotValidNumbers
+     *
+     * @param string $phoneNumber
+     */
+    public function testIsNotValidNumber($phoneNumber)
+    {
+        $this->assertFalse(PhoneNumber::parse($phoneNumber)->isValidNumber());
+    }
+
+    /**
      * @return array
      */
-    public function providerIsValidNumber()
+    public function providerValidNumbers()
     {
         return [
             [self::US_NUMBER],
@@ -282,19 +314,9 @@ class PhoneNumberTest extends TestCase
     }
 
     /**
-     * @dataProvider providerIsNotValidNumber
-     *
-     * @param string $phoneNumber
-     */
-    public function testIsNotValidNumber($phoneNumber)
-    {
-        $this->assertFalse(PhoneNumber::parse($phoneNumber)->isValidNumber());
-    }
-
-    /**
      * @return array
      */
-    public function providerIsNotValidNumber()
+    public function providerPossibleButNotValidNumbers()
     {
         return [
             [self::US_LOCAL_NUMBER],
@@ -302,8 +324,18 @@ class PhoneNumberTest extends TestCase
             ['+44791234567'],
             ['+491234'],
             ['+643316005'],
-            ['+39232366'],
-            [self::INTERNATIONAL_TOLL_FREE_TOO_LONG]
+            ['+39232366']
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function providerNotPossibleNumbers()
+    {
+        return [
+            [self::INTERNATIONAL_TOLL_FREE_TOO_LONG],
+            ['+4912']
         ];
     }
 
