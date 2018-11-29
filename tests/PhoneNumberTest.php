@@ -245,8 +245,8 @@ class PhoneNumberTest extends TestCase
             [PhoneNumberType::FIXED_LINE_OR_MOBILE, self::US_NUMBER],
 // @todo doesn't work in online r557 either
 //            [PhoneNumberType::FIXED_LINE_OR_MOBILE, '+541987654321'],
-
-            [PhoneNumberType::SHARED_COST, '+448431231234'],
+// @todo not a good example, changed from SHARED_COST (v7) to PREMIUM_RATE (v8)
+//            [PhoneNumberType::SHARED_COST, '+448431231234'],
 
             [PhoneNumberType::VOIP, '+445631231234'],
 
