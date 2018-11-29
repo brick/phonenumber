@@ -20,15 +20,10 @@ It provides an equivalent functionality, with the following implementation diffe
 
 ## Installation
 
-This library is installable via [Composer](https://getcomposer.org/).
-Just define the following requirement in your `composer.json` file:
+This library is installable via [Composer](https://getcomposer.org/):
 
-```json
-{
-    "require": {
-        "brick/phonenumber": "0.2.*"
-    }
-}
+```bash
+composer require brick/phonenumber
 ```
 
 ## Requirements
