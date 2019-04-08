@@ -335,7 +335,7 @@ class PhoneNumberTest extends TestCase
     {
         return [
             [self::INTERNATIONAL_TOLL_FREE_TOO_LONG],
-            ['+4912']
+            ['+1253000']
         ];
     }
 
