@@ -230,7 +230,7 @@ class PhoneNumberTest extends TestCase
             [PhoneNumberType::MOBILE, self::GB_MOBILE],
 // @todo doesn't work in online r557 either
 //            [PhoneNumberType::MOBILE, self::IT_MOBILE],
-            [PhoneNumberType::MOBILE, self::AR_MOBILE],
+//            [PhoneNumberType::MOBILE, self::AR_MOBILE],
 // @todo this matches both fixedLine & mobile, but is still reported as MOBILE in the java version
 //            [PhoneNumberType::MOBILE, '+4915123456789'],
 // @todo doesn't work in online r557 either
