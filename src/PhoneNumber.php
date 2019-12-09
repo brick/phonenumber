@@ -86,9 +86,9 @@ class PhoneNumber
      *
      * The national number is a series of digits.
      *
-     * @return string
+     * @return string|null
      */
-    public function getNationalNumber() : string
+    public function getNationalNumber() : ?string
     {
         return $this->phoneNumber->getNationalNumber();
     }
