@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brick\PhoneNumber\Tests;
 
 use Brick\PhoneNumber\PhoneNumber;
@@ -402,9 +404,9 @@ class PhoneNumberTest extends TestCase
      *
      * @param string $expected
      * @param string $phoneNumber
-     * @param string $numberFormat
+     * @param int    $numberFormat
      */
-    public function testFormatNumber(string $expected, string $phoneNumber, string $numberFormat) : void
+    public function testFormatNumber(string $expected, string $phoneNumber, int $numberFormat) : void
     {
         $this->assertSame($expected, PhoneNumber::parse($phoneNumber)->format($numberFormat));
     }
