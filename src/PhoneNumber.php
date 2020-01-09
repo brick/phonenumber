@@ -39,7 +39,7 @@ class PhoneNumber
      *
      * @throws PhoneNumberParseException
      */
-    public static function parse(string $phoneNumber, string $regionCode = null) : PhoneNumber
+    public static function parse(string $phoneNumber, ?string $regionCode = null) : PhoneNumber
     {
         try {
             return new PhoneNumber(
