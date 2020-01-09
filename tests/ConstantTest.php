@@ -18,7 +18,7 @@ class ConstantTest extends TestCase
      * @param string $classExpected The name or the reference class.
      * @param string $classActual   The name of the class to test against the reference class.
      */
-    private function assertConstantsEqual($classExpected, $classActual)
+    private function assertConstantsEqual(string $classExpected, string $classActual) : void
     {
         $expected = new \ReflectionClass($classExpected);
         $actual   = new \ReflectionClass($classActual);
@@ -26,12 +26,12 @@ class ConstantTest extends TestCase
         $this->assertSame($expected->getConstants(), $actual->getConstants());
     }
 
-    public function testPhoneNumberFormats()
+    public function testPhoneNumberFormats() : void
     {
         $this->assertConstantsEqual(\libphonenumber\PhoneNumberFormat::class, PhoneNumberFormat::class);
     }
 
-    public function testPhoneNumberTypes()
+    public function testPhoneNumberTypes() : void
     {
         $this->assertConstantsEqual(\libphonenumber\PhoneNumberType::class, PhoneNumberType::class);
     }

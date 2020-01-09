@@ -13,43 +13,43 @@ use PHPUnit\Framework\TestCase;
  */
 class PhoneNumberTest extends TestCase
 {
-    const ALPHA_NUMERIC_NUMBER = '+180074935247';
-    const AE_UAN = '+971600123456';
-    const AR_MOBILE = '+5491187654321';
-    const AR_NUMBER = '+541187654321';
-    const AU_NUMBER = '+61236618300';
-    const BS_MOBILE = '+12423570000';
-    const BS_NUMBER = '+12423651234';
+    private const ALPHA_NUMERIC_NUMBER = '+180074935247';
+    private const AE_UAN = '+971600123456';
+    private const AR_MOBILE = '+5491187654321';
+    private const AR_NUMBER = '+541187654321';
+    private const AU_NUMBER = '+61236618300';
+    private const BS_MOBILE = '+12423570000';
+    private const BS_NUMBER = '+12423651234';
     // Note that this is the same as the example number for DE in the metadata.
-    const DE_NUMBER = '+4930123456';
-    const DE_SHORT_NUMBER = '+491234';
-    const GB_MOBILE = '+447912345678';
-    const GB_NUMBER = '+442070313000';
-    const IT_MOBILE = '+39345678901';
-    const IT_NUMBER = '+390236618300';
-    const JP_STAR_NUMBER = '+812345';
+    private const DE_NUMBER = '+4930123456';
+    private const DE_SHORT_NUMBER = '+491234';
+    private const GB_MOBILE = '+447912345678';
+    private const GB_NUMBER = '+442070313000';
+    private const IT_MOBILE = '+39345678901';
+    private const IT_NUMBER = '+390236618300';
+    private const JP_STAR_NUMBER = '+812345';
     // Numbers to test the formatting rules from Mexico.
-    const MX_MOBILE1 = '+5212345678900';
-    const MX_MOBILE2 = '+5215512345678';
-    const MX_NUMBER1 = '+523312345678';
-    const MX_NUMBER2 = '+528211234567';
-    const NZ_NUMBER = '+6433316005';
-    const SG_NUMBER = '+6565218000';
+    private const MX_MOBILE1 = '+5212345678900';
+    private const MX_MOBILE2 = '+5215512345678';
+    private const MX_NUMBER1 = '+523312345678';
+    private const MX_NUMBER2 = '+528211234567';
+    private const NZ_NUMBER = '+6433316005';
+    private const SG_NUMBER = '+6565218000';
     // A too-long and hence invalid US number.
-    const US_LONG_NUMBER = '+165025300001';
-    const US_NUMBER = '+16502530000';
-    const US_PREMIUM = '+19002530000';
+    private const US_LONG_NUMBER = '+165025300001';
+    private const US_NUMBER = '+16502530000';
+    private const US_PREMIUM = '+19002530000';
     // Too short, but still possible US numbers.
-    const US_LOCAL_NUMBER = '+12530000';
-    const US_SHORT_BY_ONE_NUMBER = '+1650253000';
-    const US_TOLLFREE = '+18002530000';
-    const INTERNATIONAL_TOLL_FREE = '+80012345678';
+    private const US_LOCAL_NUMBER = '+12530000';
+    private const US_SHORT_BY_ONE_NUMBER = '+1650253000';
+    private const US_TOLLFREE = '+18002530000';
+    private const INTERNATIONAL_TOLL_FREE = '+80012345678';
     // We set this to be the same length as numbers for the other non-geographical country prefix that
     // we have in our test metadata. However, this is not considered valid because they differ in
     // their country calling code.
-    const INTERNATIONAL_TOLL_FREE_TOO_LONG = '+800123456789';
-    const UNIVERSAL_PREMIUM_RATE = '+979123456789';
-    const UNKNOWN_COUNTRY_CODE_NO_RAW_INPUT = '+212345';
+    private const INTERNATIONAL_TOLL_FREE_TOO_LONG = '+800123456789';
+    private const UNIVERSAL_PREMIUM_RATE = '+979123456789';
+    private const UNKNOWN_COUNTRY_CODE_NO_RAW_INPUT = '+212345';
 
     /**
      * @dataProvider providerGetExampleNumber
@@ -58,7 +58,7 @@ class PhoneNumberTest extends TestCase
      * @param string   $callingCode
      * @param int|null $numberType
      */
-    public function testGetExampleNumber($regionCode, $callingCode, $numberType = null)
+    public function testGetExampleNumber(string $regionCode, string $callingCode, ?int $numberType = null) : void
     {
         if ($numberType === null) {
             $phoneNumber = PhoneNumber::getExampleNumber($regionCode);
@@ -80,7 +80,7 @@ class PhoneNumberTest extends TestCase
     /**
      * @return array
      */
-    public function providerGetExampleNumber()
+    public function providerGetExampleNumber() : array
     {
         return [
             ['US', '1'],
@@ -94,7 +94,7 @@ class PhoneNumberTest extends TestCase
     /**
      * @expectedException \Brick\PhoneNumber\PhoneNumberException
      */
-    public function testGetExampleNumberThrowsExceptionForInvalidRegionCode()
+    public function testGetExampleNumberThrowsExceptionForInvalidRegionCode() : void
     {
         PhoneNumber::getExampleNumber('ZZ');
     }
@@ -105,7 +105,7 @@ class PhoneNumberTest extends TestCase
      * @param string $expectedNationalNumber
      * @param string $phoneNumber
      */
-    public function testGetNationalNumber($expectedNationalNumber, $phoneNumber)
+    public function testGetNationalNumber(string $expectedNationalNumber, string $phoneNumber) : void
     {
         $this->assertSame($expectedNationalNumber, PhoneNumber::parse($phoneNumber)->getNationalNumber());
     }
@@ -113,7 +113,7 @@ class PhoneNumberTest extends TestCase
     /**
      * @return array
      */
-    public function providerGetNationalNumber()
+    public function providerGetNationalNumber() : array
     {
         return [
             ['6502530000', self::US_NUMBER],
@@ -130,7 +130,7 @@ class PhoneNumberTest extends TestCase
      * @param string $numberToParse
      * @param string $regionCode
      */
-    public function testParseNationalNumber($expectedNumber, $numberToParse, $regionCode)
+    public function testParseNationalNumber(string $expectedNumber, string $numberToParse, string $regionCode) : void
     {
         $this->assertSame($expectedNumber, (string) PhoneNumber::parse($numberToParse, $regionCode));
     }
@@ -138,7 +138,7 @@ class PhoneNumberTest extends TestCase
     /**
      * @return array
      */
-    public function providerParseNationalNumber()
+    public function providerParseNationalNumber() : array
     {
         return [
             // National prefix attached.
@@ -174,10 +174,10 @@ class PhoneNumberTest extends TestCase
     /**
      * @dataProvider providerGetRegionCode
      *
-     * @param string $expectedRegion
-     * @param string $phoneNumber
+     * @param string|null $expectedRegion
+     * @param string      $phoneNumber
      */
-    public function testGetRegionCode($expectedRegion, $phoneNumber)
+    public function testGetRegionCode(?string $expectedRegion, string $phoneNumber) : void
     {
         $this->assertSame($expectedRegion, PhoneNumber::parse($phoneNumber)->getRegionCode());
     }
@@ -185,7 +185,7 @@ class PhoneNumberTest extends TestCase
     /**
      * @return array
      */
-    public function providerGetRegionCode()
+    public function providerGetRegionCode() : array
     {
         return [
             ['BS', self::BS_NUMBER],
@@ -198,10 +198,10 @@ class PhoneNumberTest extends TestCase
     /**
      * @dataProvider providerGetNumberType
      *
-     * @param string $numberType
+     * @param int    $numberType
      * @param string $phoneNumber
      */
-    public function testGetNumberType($numberType, $phoneNumber)
+    public function testGetNumberType(int $numberType, string $phoneNumber) : void
     {
         $this->assertSame($numberType, PhoneNumber::parse($phoneNumber)->getNumberType());
     }
@@ -209,7 +209,7 @@ class PhoneNumberTest extends TestCase
     /**
      * @return array
      */
-    public function providerGetNumberType()
+    public function providerGetNumberType() : array
     {
         return [
             [PhoneNumberType::PREMIUM_RATE, self::US_PREMIUM],
@@ -263,7 +263,7 @@ class PhoneNumberTest extends TestCase
      *
      * @param string $phoneNumber
      */
-    public function testIsPossibleNumber($phoneNumber)
+    public function testIsPossibleNumber(string $phoneNumber) : void
     {
         $this->assertTrue(PhoneNumber::parse($phoneNumber)->isPossibleNumber());
     }
@@ -273,7 +273,7 @@ class PhoneNumberTest extends TestCase
      *
      * @param string $phoneNumber
      */
-    public function testIsNotPossibleNumber($phoneNumber)
+    public function testIsNotPossibleNumber(string $phoneNumber) : void
     {
         $this->assertFalse(PhoneNumber::parse($phoneNumber)->isPossibleNumber());
     }
@@ -283,7 +283,7 @@ class PhoneNumberTest extends TestCase
      *
      * @param string $phoneNumber
      */
-    public function testIsValidNumber($phoneNumber)
+    public function testIsValidNumber(string $phoneNumber) : void
     {
         $this->assertTrue(PhoneNumber::parse($phoneNumber)->isValidNumber());
     }
@@ -294,7 +294,7 @@ class PhoneNumberTest extends TestCase
      *
      * @param string $phoneNumber
      */
-    public function testIsNotValidNumber($phoneNumber)
+    public function testIsNotValidNumber(string $phoneNumber) : void
     {
         $this->assertFalse(PhoneNumber::parse($phoneNumber)->isValidNumber());
     }
@@ -302,7 +302,7 @@ class PhoneNumberTest extends TestCase
     /**
      * @return array
      */
-    public function providerValidNumbers()
+    public function providerValidNumbers() : array
     {
         return [
             [self::US_NUMBER],
@@ -317,7 +317,7 @@ class PhoneNumberTest extends TestCase
     /**
      * @return array
      */
-    public function providerPossibleButNotValidNumbers()
+    public function providerPossibleButNotValidNumbers() : array
     {
         return [
             [self::US_LOCAL_NUMBER],
@@ -332,7 +332,7 @@ class PhoneNumberTest extends TestCase
     /**
      * @return array
      */
-    public function providerNotPossibleNumbers()
+    public function providerNotPossibleNumbers() : array
     {
         return [
             [self::INTERNATIONAL_TOLL_FREE_TOO_LONG],
@@ -347,7 +347,7 @@ class PhoneNumberTest extends TestCase
      * @param string $phoneNumber
      * @param string|null $regionCode
      */
-    public function testParseException($phoneNumber, $regionCode = null)
+    public function testParseException(string $phoneNumber, ?string $regionCode = null) : void
     {
         PhoneNumber::parse($phoneNumber, $regionCode);
     }
@@ -355,7 +355,7 @@ class PhoneNumberTest extends TestCase
     /**
      * @return array
      */
-    public function providerParseException()
+    public function providerParseException() : array
     {
         return [
             // Empty string.
@@ -404,7 +404,7 @@ class PhoneNumberTest extends TestCase
      * @param string $phoneNumber
      * @param string $numberFormat
      */
-    public function testFormatNumber($expected, $phoneNumber, $numberFormat)
+    public function testFormatNumber(string $expected, string $phoneNumber, string $numberFormat) : void
     {
         $this->assertSame($expected, PhoneNumber::parse($phoneNumber)->format($numberFormat));
     }
@@ -412,7 +412,7 @@ class PhoneNumberTest extends TestCase
     /**
      * @return array
      */
-    public function providerFormatNumber()
+    public function providerFormatNumber() : array
     {
         return [
             // US
@@ -513,7 +513,7 @@ class PhoneNumberTest extends TestCase
      * @param string $countryCode
      * @param string $expected
      */
-    public function testFormatForCallingFrom($phoneNumber, $countryCode, $expected)
+    public function testFormatForCallingFrom(string $phoneNumber, string $countryCode, string $expected) : void
     {
         $this->assertSame($expected, PhoneNumber::parse($phoneNumber)->formatForCallingFrom($countryCode));
     }
@@ -521,7 +521,7 @@ class PhoneNumberTest extends TestCase
     /**
      * @return array
      */
-    public function providerFormatForCallingFrom()
+    public function providerFormatForCallingFrom() : array
     {
         return [
             ['+33123456789', 'FR', '01 23 45 67 89'],
