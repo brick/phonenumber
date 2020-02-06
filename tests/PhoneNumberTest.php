@@ -542,4 +542,26 @@ class PhoneNumberTest extends TestCase
             ['+16502530000', 'GB', '00 1 650-253-0000'],
         ];
     }
+
+    /**
+     * @dataProvider providerGetGeographicalAreaCode
+     */
+    public function testGetGeographicalAreaCode(string $phoneNumber, string $areaCode) : void
+    {
+        $this->assertSame($areaCode, PhoneNumber::parse($phoneNumber)->getGeographicalAreaCode());
+    }
+
+    public function providerGetGeographicalAreaCode() : array
+    {
+        return [
+            ['+442079460585', '20'],
+            ['+441132224444', '113'],
+            ['+447553840000', ''],
+            ['+33123000000', '1'],
+            ['+33234000000', '2'],
+            ['+33345000000', '3'],
+            ['+33456000000', '4'],
+            ['+33567000000', '5'],
+        ];
+    }
 }
