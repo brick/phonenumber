@@ -156,3 +156,9 @@ echo PhoneNumber::getExampleNumber('FR')->formatForCallingFrom('FR'); // 01 23 4
 ```
 
 If no example phone number is available for the country code / number type combination, a `PhoneNumberException` is thrown.
+
+## brick/phonenumber for enterprise
+
+Available as part of the Tidelift Subscription.
+
+The maintainers of brick/phonenumber and thousands of other packages are working with Tidelift to deliver commercial support and maintenance for the open source dependencies you use to build your applications. Save time, reduce risk, and improve code health, while paying the maintainers of the exact dependencies you use. [Learn more.](https://tidelift.com/subscription/pkg/packagist-brick-phonenumber?utm_source=packagist-brick-phonenumber&utm_medium=referral&utm_campaign=enterprise&utm_term=repo)
