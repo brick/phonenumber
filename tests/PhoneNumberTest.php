@@ -68,15 +68,15 @@ class PhoneNumberTest extends TestCase
             $phoneNumber = PhoneNumber::getExampleNumber($regionCode, $numberType);
         }
 
-        $this->assertInstanceOf(PhoneNumber::class, $phoneNumber);
-        $this->assertTrue($phoneNumber->isValidNumber());
+        self::assertInstanceOf(PhoneNumber::class, $phoneNumber);
+        self::assertTrue($phoneNumber->isValidNumber());
 
         if ($numberType !== null) {
-            $this->assertSame($numberType, $phoneNumber->getNumberType());
+            self::assertSame($numberType, $phoneNumber->getNumberType());
         }
 
-        $this->assertSame($callingCode, $phoneNumber->getCountryCode());
-        $this->assertSame($regionCode, $phoneNumber->getRegionCode());
+        self::assertSame($callingCode, $phoneNumber->getCountryCode());
+        self::assertSame($regionCode, $phoneNumber->getRegionCode());
     }
 
     /**
@@ -109,7 +109,7 @@ class PhoneNumberTest extends TestCase
      */
     public function testGetNationalNumber(string $expectedNationalNumber, string $phoneNumber) : void
     {
-        $this->assertSame($expectedNationalNumber, PhoneNumber::parse($phoneNumber)->getNationalNumber());
+        self::assertSame($expectedNationalNumber, PhoneNumber::parse($phoneNumber)->getNationalNumber());
     }
 
     /**
@@ -134,7 +134,7 @@ class PhoneNumberTest extends TestCase
      */
     public function testParseNationalNumber(string $expectedNumber, string $numberToParse, string $regionCode) : void
     {
-        $this->assertSame($expectedNumber, (string) PhoneNumber::parse($numberToParse, $regionCode));
+        self::assertSame($expectedNumber, (string) PhoneNumber::parse($numberToParse, $regionCode));
     }
 
     /**
@@ -181,7 +181,7 @@ class PhoneNumberTest extends TestCase
      */
     public function testGetRegionCode(?string $expectedRegion, string $phoneNumber) : void
     {
-        $this->assertSame($expectedRegion, PhoneNumber::parse($phoneNumber)->getRegionCode());
+        self::assertSame($expectedRegion, PhoneNumber::parse($phoneNumber)->getRegionCode());
     }
 
     /**
@@ -205,7 +205,7 @@ class PhoneNumberTest extends TestCase
      */
     public function testGetNumberType(int $numberType, string $phoneNumber) : void
     {
-        $this->assertSame($numberType, PhoneNumber::parse($phoneNumber)->getNumberType());
+        self::assertSame($numberType, PhoneNumber::parse($phoneNumber)->getNumberType());
     }
 
     /**
@@ -267,7 +267,7 @@ class PhoneNumberTest extends TestCase
      */
     public function testIsPossibleNumber(string $phoneNumber) : void
     {
-        $this->assertTrue(PhoneNumber::parse($phoneNumber)->isPossibleNumber());
+        self::assertTrue(PhoneNumber::parse($phoneNumber)->isPossibleNumber());
     }
 
     /**
@@ -277,7 +277,7 @@ class PhoneNumberTest extends TestCase
      */
     public function testIsNotPossibleNumber(string $phoneNumber) : void
     {
-        $this->assertFalse(PhoneNumber::parse($phoneNumber)->isPossibleNumber());
+        self::assertFalse(PhoneNumber::parse($phoneNumber)->isPossibleNumber());
     }
 
     /**
@@ -287,7 +287,7 @@ class PhoneNumberTest extends TestCase
      */
     public function testIsValidNumber(string $phoneNumber) : void
     {
-        $this->assertTrue(PhoneNumber::parse($phoneNumber)->isValidNumber());
+        self::assertTrue(PhoneNumber::parse($phoneNumber)->isValidNumber());
     }
 
     /**
@@ -298,7 +298,7 @@ class PhoneNumberTest extends TestCase
      */
     public function testIsNotValidNumber(string $phoneNumber) : void
     {
-        $this->assertFalse(PhoneNumber::parse($phoneNumber)->isValidNumber());
+        self::assertFalse(PhoneNumber::parse($phoneNumber)->isValidNumber());
     }
 
     /**
@@ -408,7 +408,7 @@ class PhoneNumberTest extends TestCase
      */
     public function testFormatNumber(string $expected, string $phoneNumber, int $numberFormat) : void
     {
-        $this->assertSame($expected, PhoneNumber::parse($phoneNumber)->format($numberFormat));
+        self::assertSame($expected, PhoneNumber::parse($phoneNumber)->format($numberFormat));
     }
 
     /**
@@ -517,7 +517,7 @@ class PhoneNumberTest extends TestCase
      */
     public function testFormatForCallingFrom(string $phoneNumber, string $countryCode, string $expected) : void
     {
-        $this->assertSame($expected, PhoneNumber::parse($phoneNumber)->formatForCallingFrom($countryCode));
+        self::assertSame($expected, PhoneNumber::parse($phoneNumber)->formatForCallingFrom($countryCode));
     }
 
     /**
@@ -548,7 +548,7 @@ class PhoneNumberTest extends TestCase
      */
     public function testGetGeographicalAreaCode(string $phoneNumber, string $areaCode) : void
     {
-        $this->assertSame($areaCode, PhoneNumber::parse($phoneNumber)->getGeographicalAreaCode());
+        self::assertSame($areaCode, PhoneNumber::parse($phoneNumber)->getGeographicalAreaCode());
     }
 
     public function providerGetGeographicalAreaCode() : array
