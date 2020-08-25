@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Brick\PhoneNumber\Tests;
 
 use Brick\PhoneNumber\PhoneNumber;
+use Brick\PhoneNumber\PhoneNumberException;
+use Brick\PhoneNumber\PhoneNumberParseException;
 use Brick\PhoneNumber\PhoneNumberType;
 use Brick\PhoneNumber\PhoneNumberFormat;
 
@@ -93,11 +95,9 @@ class PhoneNumberTest extends TestCase
         ];
     }
 
-    /**
-     * @expectedException \Brick\PhoneNumber\PhoneNumberException
-     */
     public function testGetExampleNumberThrowsExceptionForInvalidRegionCode() : void
     {
+        $this->expectException(PhoneNumberException::class);
         PhoneNumber::getExampleNumber('ZZ');
     }
 
@@ -344,13 +344,13 @@ class PhoneNumberTest extends TestCase
 
     /**
      * @dataProvider providerParseException
-     * @expectedException \Brick\PhoneNumber\PhoneNumberParseException
      *
      * @param string $phoneNumber
      * @param string|null $regionCode
      */
     public function testParseException(string $phoneNumber, ?string $regionCode = null) : void
     {
+        $this->expectException(PhoneNumberParseException::class);
         PhoneNumber::parse($phoneNumber, $regionCode);
     }
 
