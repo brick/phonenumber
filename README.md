@@ -4,7 +4,7 @@
 
 A phone number library for PHP.
 
-[![Build Status](https://secure.travis-ci.org/brick/phonenumber.svg?branch=master)](http://travis-ci.org/brick/phonenumber)
+[![Build Status](https://github.com/brick/phonenumber/workflows/CI/badge.svg)](https://github.com/brick/phonenumber/actions)
 [![Coverage Status](https://coveralls.io/repos/github/brick/phonenumber/badge.svg?branch=master)](https://coveralls.io/github/brick/phonenumber?branch=master)
 [![Latest Stable Version](https://poser.pugx.org/brick/phonenumber/v/stable)](https://packagist.org/packages/brick/phonenumber)
 [![Total Downloads](https://poser.pugx.org/brick/phonenumber/downloads)](https://packagist.org/packages/brick/phonenumber)
