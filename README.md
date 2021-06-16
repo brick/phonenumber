@@ -49,7 +49,7 @@ All the classes lie in the `Brick\PhoneNumber` namespace.
 
 To obtain an instance of `PhoneNumber`, use the `parse()` method:
 
-- Using an international number: `PhoneNumber::parse('+336123456789')`;
+- Using an international number: `PhoneNumber::parse('+33123456789')`;
 - Using a national number and a country code: `PhoneNumber::parse('01 23 45 67 89', 'FR')`;
 
 ### Validating a number
