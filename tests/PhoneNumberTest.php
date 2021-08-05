@@ -564,4 +564,25 @@ class PhoneNumberTest extends TestCase
             ['+33567000000', '5'],
         ];
     }
+
+    /**
+     * @dataProvider providerIsEqualTo
+     */
+    public function testIsEqualTo(string $phoneNumber1, string $phoneNumber2, bool $isEqual): void
+    {
+        $phoneNumber1 = PhoneNumber::parse($phoneNumber1);
+        $phoneNumber2 = PhoneNumber::parse($phoneNumber2);
+
+        echo "$phoneNumber2\n";
+
+        self::assertSame($isEqual, $phoneNumber1->isEqualTo($phoneNumber2));
+    }
+
+    public function providerIsEqualTo(): array
+    {
+        return [
+            ['+442079460585', '+442079460585', true],
+            ['+442079460585', '+442079460586', false],
+        ];
+    }
 }

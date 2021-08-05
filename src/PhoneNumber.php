@@ -198,6 +198,11 @@ class PhoneNumber
         return PhoneNumberUtil::getInstance()->formatOutOfCountryCallingNumber($this->phoneNumber, $regionCode);
     }
 
+    public function isEqualTo(PhoneNumber $phoneNumber): bool
+    {
+        return $this->phoneNumber->equals($phoneNumber->phoneNumber);
+    }
+
     /**
      * Returns a string representation of this phone number in international E164 format.
      *
