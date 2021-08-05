@@ -585,4 +585,13 @@ class PhoneNumberTest extends TestCase
             ['+442079460585', '+442079460586', false],
         ];
     }
+
+    public function testJsonSerializable(): void
+    {
+        $data = [
+            'phoneNumber' => PhoneNumber::parse('0123000000', 'FR')
+        ];
+
+        self::assertSame('{"phoneNumber":"+33123000000"}', json_encode($data));
+    }
 }

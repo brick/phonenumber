@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Brick\PhoneNumber;
 
+use JsonSerializable;
 use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberUtil;
 
 /**
  * A phone number.
  */
-class PhoneNumber
+class PhoneNumber implements JsonSerializable
 {
     /**
      * The underlying PhoneNumber object from libphonenumber.
@@ -201,6 +202,14 @@ class PhoneNumber
     public function isEqualTo(PhoneNumber $phoneNumber): bool
     {
         return $this->phoneNumber->equals($phoneNumber->phoneNumber);
+    }
+
+    /**
+     * Required by interface JsonSerializable.
+     */
+    public function jsonSerialize(): string
+    {
+        return (string) $this;
     }
 
     /**
