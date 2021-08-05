@@ -157,6 +157,10 @@ echo PhoneNumber::getExampleNumber('FR')->formatForCallingFrom('FR'); // 01 23 4
 
 If no example phone number is available for the country code / number type combination, a `PhoneNumberException` is thrown.
 
+### Doctrine mappings
+
+You can use `PhoneNumber` objects in your Doctrine entities using the [brick/phonenumber-doctrine](https://github.com/brick/phonenumber-doctrine) package.
+
 ## brick/phonenumber for enterprise
 
 Available as part of the Tidelift Subscription.
