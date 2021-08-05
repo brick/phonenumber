@@ -573,8 +573,6 @@ class PhoneNumberTest extends TestCase
         $phoneNumber1 = PhoneNumber::parse($phoneNumber1);
         $phoneNumber2 = PhoneNumber::parse($phoneNumber2);
 
-        echo "$phoneNumber2\n";
-
         self::assertSame($isEqual, $phoneNumber1->isEqualTo($phoneNumber2));
     }
 
