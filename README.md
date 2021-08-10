@@ -157,6 +157,28 @@ echo PhoneNumber::getExampleNumber('FR')->formatForCallingFrom('FR'); // 01 23 4
 
 If no example phone number is available for the country code / number type combination, a `PhoneNumberException` is thrown.
 
+### Casting to string
+
+Casting a `PhoneNumber` to string returns its E164 representation (`+` followed by digits), so the following are equivalent:
+
+```php
+(string) $phoneNumber
+```
+
+```php
+$phoneNumber->format(PhoneNumberFormat::E164)
+```
+
+You can serialize a `PhoneNumber` to string, then recover it using `parse()` without a country code:
+
+```php
+$phoneNumber = PhoneNumber::parse('02079834000', 'GB');
+$phoneNumberAsString = (string) $phoneNumber; // +442079834000
+$phoneNumber2 = PhoneNumber::parse($phoneNumberAsString);
+
+$phoneNumber2->isEqualTo($phoneNumber); // true
+```
+
 ### Doctrine mappings
 
 You can use `PhoneNumber` objects in your Doctrine entities using the [brick/phonenumber-doctrine](https://github.com/brick/phonenumber-doctrine) package.
