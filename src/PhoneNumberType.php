@@ -7,7 +7,7 @@ namespace Brick\PhoneNumber;
 /**
  * Constants for the phone number types.
  */
-class PhoneNumberType
+final class PhoneNumberType
 {
     /**
      * Fixed line number.

@@ -11,7 +11,7 @@ use libphonenumber\PhoneNumberUtil;
 /**
  * A phone number.
  */
-class PhoneNumber implements JsonSerializable
+final class PhoneNumber implements JsonSerializable
 {
     /**
      * The underlying PhoneNumber object from libphonenumber.

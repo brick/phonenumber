@@ -7,7 +7,7 @@ namespace Brick\PhoneNumber;
 /**
  * Exception thrown when a phone number cannot be parsed.
  */
-class PhoneNumberParseException extends PhoneNumberException
+final class PhoneNumberParseException extends PhoneNumberException
 {
     /**
      * @internal

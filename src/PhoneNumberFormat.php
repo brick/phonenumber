@@ -7,7 +7,7 @@ namespace Brick\PhoneNumber;
 /**
  * Constants for the phone number formats.
  */
-class PhoneNumberFormat
+final class PhoneNumberFormat
 {
     /**
      * The E164 format.
