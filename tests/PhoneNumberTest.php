@@ -592,4 +592,51 @@ class PhoneNumberTest extends TestCase
 
         self::assertSame('{"phoneNumber":"+33123000000"}', json_encode($data));
     }
+
+    /**
+     * @dataProvider providerGetDescription
+     */
+    public function testGetDescription(string $phoneNumber, string $locale, ?string $userRegion, ?string $expected) : void
+    {
+        self::assertSame($expected, PhoneNumber::parse($phoneNumber)->getDescription($locale, $userRegion));
+    }
+
+    public function providerGetDescription() : array
+    {
+        return [
+            ['+16509036313', 'EN', null, 'Mountain View, CA'],
+            ['+16509036313', 'EN', 'US', 'Mountain View, CA'],
+            ['+16509036313', 'EN', 'GB', 'United States'],
+            ['+16509036313', 'EN', 'FR', 'United States'],
+            ['+16509036313', 'EN', 'XX', 'United States'],
+            ['+16509036313', 'FR', null, 'Mountain View, CA'],
+            ['+16509036313', 'FR', 'US', 'Mountain View, CA'],
+            ['+16509036313', 'FR', 'GB', 'États-Unis'],
+            ['+16509036313', 'FR', 'FR', 'États-Unis'],
+            ['+16509036313', 'FR', 'XX', 'États-Unis'],
+
+            ['+33381251234', 'FR', null, 'Besançon'],
+            ['+33381251234', 'FR', 'FR', 'Besançon'],
+            ['+33381251234', 'FR', 'US', 'France'],
+            ['+33381251234', 'FR', 'XX', 'France'],
+            ['+33381251234', 'EN', null, 'Besançon'],
+            ['+33381251234', 'EN', 'FR', 'Besançon'],
+            ['+33381251234', 'EN', 'US', 'France'],
+            ['+33381251234', 'EN', 'XX', 'France'],
+
+            ['+33328201234', 'FR', null, 'Dunkerque'],
+            ['+33328201234', 'FR', 'FR', 'Dunkerque'],
+            ['+33328201234', 'FR', 'US', 'France'],
+            ['+33328201234', 'FR', 'XX', 'France'],
+            ['+33328201234', 'GB', null, 'Dunkirk'],
+            ['+33328201234', 'XX', null, 'Dunkirk'],
+
+            ['+41229097000', 'FR', null, 'Genève'],
+            ['+41229097000', 'FR', 'CH', 'Genève'],
+            ['+41229097000', 'FR', 'US', 'Suisse'],
+            ['+41229097000', 'XX', null, 'Geneva'],
+
+            ['+37328000000', 'XX', null, null],
+        ];
+    }
 }

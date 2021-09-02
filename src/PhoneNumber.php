@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brick\PhoneNumber;
 
 use JsonSerializable;
+use libphonenumber\geocoding\PhoneNumberOfflineGeocoder;
 use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberUtil;
 
@@ -210,6 +211,43 @@ final class PhoneNumber implements JsonSerializable
     public function jsonSerialize(): string
     {
         return (string) $this;
+    }
+
+    /**
+     * Returns a text description for the given phone number, in the language provided. The description might consist of
+     * the name of the country where the phone number is from, or the name of the geographical area the phone number is
+     * from if more detailed information is available.
+     *
+     * If $userRegion is set, we also consider the region of the user. If the phone number is from the same region as
+     * the user, only a lower-level description will be returned, if one exists. Otherwise, the phone number's region
+     * will be returned, with optionally some more detailed information.
+     *
+     * For example, for a user from the region "US" (United States), we would show "Mountain View, CA" for a particular
+     * number, omitting the United States from the description. For a user from the United Kingdom (region "GB"), for
+     * the same number we may show "Mountain View, CA, United States" or even just "United States".
+     *
+     * If no description is found, this method returns null.
+     *
+     * @param string      $locale     The locale for which the description should be written.
+     * @param string|null $userRegion The region code for a given user. This region will be omitted from the description
+     *                                if the phone number comes from this region. It is a two-letter uppercase CLDR
+     *                                region code.
+     *
+     * @return string|null
+     */
+    public function getDescription(string $locale, ?string $userRegion = null) : ?string
+    {
+        $description = PhoneNumberOfflineGeocoder::getInstance()->getDescriptionForNumber(
+            $this->phoneNumber,
+            $locale,
+            $userRegion
+        );
+
+        if ($description === '') {
+            return null;
+        }
+
+        return $description;
     }
 
     /**
