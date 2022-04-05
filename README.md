@@ -93,7 +93,7 @@ As a rule of thumb, do the following:
 
 #### Basic formatting
 
-You can use `format()` with constants from the [PhoneNumberFormat](https://github.com/brick/phonenumber/blob/0.4.0/src/PhoneNumberFormat.php) class:
+You can use `format()` with constants from the [PhoneNumberFormat](https://github.com/brick/phonenumber/blob/master/src/PhoneNumberFormat.php) class:
 
 ```php
 $number = PhoneNumber::parse('+41446681800');
@@ -118,7 +118,7 @@ $number->formatForCallingFrom('US'); // 011 44 7123 456789
 ### Number types
 
 In certain cases, it is possible to know the type of a phone number (fixed line, mobile phone, etc.), using
-the `getNumberType()` method, which returns a constant from the [PhoneNumberType](https://github.com/brick/phonenumber/blob/0.4.0/src/PhoneNumberType.php) class:
+the `getNumberType()` method, which returns a constant from the [PhoneNumberType](https://github.com/brick/phonenumber/blob/master/src/PhoneNumberType.php) class:
 
 ```php
 PhoneNumber::parse('+336123456789')->getNumberType(); // PhoneNumberType::MOBILE
