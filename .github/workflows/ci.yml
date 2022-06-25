@@ -41,16 +41,16 @@ jobs:
 
       - name: Run PHPUnit
         run: vendor/bin/phpunit
-        if: ${{ matrix.php-version != '8.0' }}
+        if: ${{ matrix.php-version != '8.1' }}
 
       - name: Run PHPUnit with coverage
         run: |
           mkdir -p mkdir -p build/logs
           vendor/bin/phpunit --coverage-clover build/logs/clover.xml
-        if: ${{ matrix.php-version == '8.0' }}
+        if: ${{ matrix.php-version == '8.1' }}
 
       - name: Upload coverage report to Coveralls
         run: vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        if: ${{ matrix.php-version == '8.0' }}
+        if: ${{ matrix.php-version == '8.1' }}
