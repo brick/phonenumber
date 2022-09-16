@@ -460,6 +460,9 @@ class PhoneNumberTest extends TestCase
             ['030 123456', self::DE_NUMBER, PhoneNumberFormat::NATIONAL],
 
             ['04134 1234', '+4941341234', PhoneNumberFormat::NATIONAL],
+            
+            // DE mobile
+            ['01520 123123', '+491520123123', PhoneNumberFormat::NATIONAL],
 
             // IT
             ['02 3661 8300', self::IT_NUMBER, PhoneNumberFormat::NATIONAL],
