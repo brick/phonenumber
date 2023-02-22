@@ -53,8 +53,8 @@ final class PhoneNumber implements JsonSerializable
     }
 
     /**
-     * @param string $regionCode      The region code.
-     * @param int    $phoneNumberType The phone number type, defaults to a fixed line.
+     * @param string             $regionCode      The region code.
+     * @param PhoneNumberType::* $phoneNumberType The phone number type, defaults to a fixed line.
      *
      * @return PhoneNumber
      *
@@ -169,7 +169,7 @@ final class PhoneNumber implements JsonSerializable
     /**
      * Returns the type of this phone number.
      *
-     * @return int One of the PhoneNumberType constants.
+     * @return PhoneNumberType::*
      */
     public function getNumberType() : int
     {
@@ -179,7 +179,7 @@ final class PhoneNumber implements JsonSerializable
     /**
      * Returns a formatted string representation of this phone number.
      *
-     * @param int $format One of the PhoneNumberFormat constants.
+     * @param PhoneNumberFormat::* $format
      *
      * @return string
      */
