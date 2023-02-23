@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brick\PhoneNumber;
 
 use JsonSerializable;
+use libphonenumber;
 use libphonenumber\geocoding\PhoneNumberOfflineGeocoder;
 use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberUtil;
@@ -16,17 +17,13 @@ final class PhoneNumber implements JsonSerializable
 {
     /**
      * The underlying PhoneNumber object from libphonenumber.
-     *
-     * @var \libphonenumber\PhoneNumber
      */
-    private $phoneNumber;
+    private libphonenumber\PhoneNumber $phoneNumber;
 
     /**
      * Private constructor. Use a factory method to obtain an instance.
-     *
-     * @param \libphonenumber\PhoneNumber $phoneNumber
      */
-    private function __construct(\libphonenumber\PhoneNumber $phoneNumber)
+    private function __construct(libphonenumber\PhoneNumber $phoneNumber)
     {
         $this->phoneNumber = $phoneNumber;
     }
