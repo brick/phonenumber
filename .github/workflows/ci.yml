@@ -5,6 +5,25 @@ on:
   pull_request:
 
 jobs:
+  psalm:
+    name: Psalm
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+
+      - name: Install composer dependencies
+        uses: "ramsey/composer-install@v1"
+
+      - name: Run Psalm
+        run: vendor/bin/psalm --show-info=false --find-unused-psalm-suppress --no-progress
+
   phpunit:
     name: PHPUnit
     runs-on: ubuntu-latest

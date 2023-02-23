@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="5.7.5@5390c212bab06ee230c8720c2e9c54b823db00c8">
+  <file src="src/PhoneNumber.php">
+    <InvalidNullableReturnType>
+      <code>string</code>
+    </InvalidNullableReturnType>
+    <LessSpecificReturnStatement>
+      <code><![CDATA[PhoneNumberUtil::getInstance()->getNumberType($this->phoneNumber)]]></code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType>
+      <code>PhoneNumberType::*</code>
+    </MoreSpecificReturnType>
+    <NullableReturnStatement>
+      <code><![CDATA[$this->phoneNumber->getNationalNumber()]]></code>
+    </NullableReturnStatement>
+  </file>
+  <file src="src/PhoneNumberParseException.php">
+    <PossiblyInvalidArgument>
+      <code><![CDATA[$e->getCode()]]></code>
+    </PossiblyInvalidArgument>
+  </file>
+</files>
