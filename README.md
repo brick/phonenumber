@@ -28,7 +28,9 @@ composer require brick/phonenumber
 
 ## Requirements
 
-This library requires PHP 7.1 or later. for PHP 5.6 and PHP 7.0 support, use version `0.1`.
+This library requires PHP 7.4 or later.
+For PHP 7.1 support, use version `0.4`.
+For PHP 5.6 and PHP 7.0 support, use version `0.1`.
 
 ## Project status & release process
 
