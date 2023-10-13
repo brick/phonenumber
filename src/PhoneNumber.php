@@ -18,7 +18,7 @@ final class PhoneNumber implements JsonSerializable
     /**
      * The underlying PhoneNumber object from libphonenumber.
      */
-    private libphonenumber\PhoneNumber $phoneNumber;
+    private readonly libphonenumber\PhoneNumber $phoneNumber;
 
     /**
      * Private constructor. Use a factory method to obtain an instance.
