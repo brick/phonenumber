@@ -81,10 +81,7 @@ class PhoneNumberTest extends TestCase
         self::assertSame($regionCode, $phoneNumber->getRegionCode());
     }
 
-    /**
-     * @return array
-     */
-    public function providerGetExampleNumber() : array
+    public static function providerGetExampleNumber() : array
     {
         return [
             ['US', '1'],
@@ -112,10 +109,7 @@ class PhoneNumberTest extends TestCase
         self::assertSame($expectedNationalNumber, PhoneNumber::parse($phoneNumber)->getNationalNumber());
     }
 
-    /**
-     * @return array
-     */
-    public function providerGetNationalNumber() : array
+    public static function providerGetNationalNumber() : array
     {
         return [
             ['6502530000', self::US_NUMBER],
@@ -137,10 +131,7 @@ class PhoneNumberTest extends TestCase
         self::assertSame($expectedNumber, (string) PhoneNumber::parse($numberToParse, $regionCode));
     }
 
-    /**
-     * @return array
-     */
-    public function providerParseNationalNumber() : array
+    public static function providerParseNationalNumber() : array
     {
         return [
             // National prefix attached.
@@ -184,10 +175,7 @@ class PhoneNumberTest extends TestCase
         self::assertSame($expectedRegion, PhoneNumber::parse($phoneNumber)->getRegionCode());
     }
 
-    /**
-     * @return array
-     */
-    public function providerGetRegionCode() : array
+    public static function providerGetRegionCode() : array
     {
         return [
             ['BS', self::BS_NUMBER],
@@ -208,10 +196,7 @@ class PhoneNumberTest extends TestCase
         self::assertSame($numberType, PhoneNumber::parse($phoneNumber)->getNumberType());
     }
 
-    /**
-     * @return array
-     */
-    public function providerGetNumberType() : array
+    public static function providerGetNumberType() : array
     {
         return [
             [PhoneNumberType::PREMIUM_RATE, self::US_PREMIUM],
@@ -301,10 +286,7 @@ class PhoneNumberTest extends TestCase
         self::assertFalse(PhoneNumber::parse($phoneNumber)->isValidNumber());
     }
 
-    /**
-     * @return array
-     */
-    public function providerValidNumbers() : array
+    public static function providerValidNumbers() : array
     {
         return [
             [self::US_NUMBER],
@@ -316,10 +298,7 @@ class PhoneNumberTest extends TestCase
         ];
     }
 
-    /**
-     * @return array
-     */
-    public function providerPossibleButNotValidNumbers() : array
+    public static function providerPossibleButNotValidNumbers() : array
     {
         return [
             [self::US_LOCAL_NUMBER],
@@ -331,10 +310,7 @@ class PhoneNumberTest extends TestCase
         ];
     }
 
-    /**
-     * @return array
-     */
-    public function providerNotPossibleNumbers() : array
+    public static function providerNotPossibleNumbers() : array
     {
         return [
             [self::INTERNATIONAL_TOLL_FREE_TOO_LONG],
@@ -354,10 +330,7 @@ class PhoneNumberTest extends TestCase
         PhoneNumber::parse($phoneNumber, $regionCode);
     }
 
-    /**
-     * @return array
-     */
-    public function providerParseException() : array
+    public static function providerParseException() : array
     {
         return [
             // Empty string.
@@ -411,10 +384,7 @@ class PhoneNumberTest extends TestCase
         self::assertSame($expected, PhoneNumber::parse($phoneNumber)->format($numberFormat));
     }
 
-    /**
-     * @return array
-     */
-    public function providerFormatNumber() : array
+    public static function providerFormatNumber() : array
     {
         return [
             // US
@@ -520,10 +490,7 @@ class PhoneNumberTest extends TestCase
         self::assertSame($expected, PhoneNumber::parse($phoneNumber)->formatForCallingFrom($countryCode));
     }
 
-    /**
-     * @return array
-     */
-    public function providerFormatForCallingFrom() : array
+    public static function providerFormatForCallingFrom() : array
     {
         return [
             ['+33123456789', 'FR', '01 23 45 67 89'],
@@ -551,7 +518,7 @@ class PhoneNumberTest extends TestCase
         self::assertSame($areaCode, PhoneNumber::parse($phoneNumber)->getGeographicalAreaCode());
     }
 
-    public function providerGetGeographicalAreaCode() : array
+    public static function providerGetGeographicalAreaCode() : array
     {
         return [
             ['+442079460585', '20'],
@@ -576,7 +543,7 @@ class PhoneNumberTest extends TestCase
         self::assertSame($isEqual, $phoneNumber1->isEqualTo($phoneNumber2));
     }
 
-    public function providerIsEqualTo(): array
+    public static function providerIsEqualTo(): array
     {
         return [
             ['+442079460585', '+442079460585', true],
@@ -606,7 +573,7 @@ class PhoneNumberTest extends TestCase
         self::assertContains(PhoneNumber::parse($phoneNumber)->getDescription($locale, $userRegion), $expected);
     }
 
-    public function providerGetDescription() : array
+    public static function providerGetDescription() : array
     {
         return [
             ['+16509036313', 'EN', null, ['Mountain View, CA']],

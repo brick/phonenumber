@@ -15,7 +15,7 @@
     "giggsey/libphonenumber-for-php": "^7.0 || ^8.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "^9.0",
+    "phpunit/phpunit": "^10.4",
     "php-coveralls/php-coveralls": "^2.0",
     "vimeo/psalm": "5.15.0"
   },
