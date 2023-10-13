@@ -57,12 +57,8 @@ class PhoneNumberTest extends TestCase
 
     /**
      * @dataProvider providerGetExampleNumber
-     *
-     * @param string   $regionCode
-     * @param string   $callingCode
-     * @param int|null $numberType
      */
-    public function testGetExampleNumber(string $regionCode, string $callingCode, ?int $numberType = null) : void
+    public function testGetExampleNumber(string $regionCode, string $callingCode, ?PhoneNumberType $numberType = null) : void
     {
         if ($numberType === null) {
             $phoneNumber = PhoneNumber::getExampleNumber($regionCode);
@@ -187,11 +183,8 @@ class PhoneNumberTest extends TestCase
 
     /**
      * @dataProvider providerGetNumberType
-     *
-     * @param int    $numberType
-     * @param string $phoneNumber
      */
-    public function testGetNumberType(int $numberType, string $phoneNumber) : void
+    public function testGetNumberType(PhoneNumberType $numberType, string $phoneNumber) : void
     {
         self::assertSame($numberType, PhoneNumber::parse($phoneNumber)->getNumberType());
     }
@@ -374,12 +367,8 @@ class PhoneNumberTest extends TestCase
 
     /**
      * @dataProvider providerFormatNumber
-     *
-     * @param string $expected
-     * @param string $phoneNumber
-     * @param int    $numberFormat
      */
-    public function testFormatNumber(string $expected, string $phoneNumber, int $numberFormat) : void
+    public function testFormatNumber(string $expected, string $phoneNumber, PhoneNumberFormat $numberFormat) : void
     {
         self::assertSame($expected, PhoneNumber::parse($phoneNumber)->format($numberFormat));
     }

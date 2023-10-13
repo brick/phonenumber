@@ -50,16 +50,16 @@ final class PhoneNumber implements JsonSerializable
     }
 
     /**
-     * @param string             $regionCode      The region code.
-     * @param PhoneNumberType::* $phoneNumberType The phone number type, defaults to a fixed line.
+     * @param string          $regionCode      The region code.
+     * @param PhoneNumberType $phoneNumberType The phone number type, defaults to a fixed line.
      *
      * @return PhoneNumber
      *
      * @throws PhoneNumberException If no example number is available for this region and type.
      */
-    public static function getExampleNumber(string $regionCode, int $phoneNumberType = PhoneNumberType::FIXED_LINE) : PhoneNumber
+    public static function getExampleNumber(string $regionCode, PhoneNumberType $phoneNumberType = PhoneNumberType::FIXED_LINE) : PhoneNumber
     {
-        $phoneNumber = PhoneNumberUtil::getInstance()->getExampleNumberForType($regionCode, $phoneNumberType);
+        $phoneNumber = PhoneNumberUtil::getInstance()->getExampleNumberForType($regionCode, $phoneNumberType->value);
 
         if ($phoneNumber === null) {
             throw new PhoneNumberException('No example number is available for the given region and type.');
@@ -165,24 +165,20 @@ final class PhoneNumber implements JsonSerializable
 
     /**
      * Returns the type of this phone number.
-     *
-     * @return PhoneNumberType::*
      */
-    public function getNumberType() : int
+    public function getNumberType() : PhoneNumberType
     {
-        return PhoneNumberUtil::getInstance()->getNumberType($this->phoneNumber);
+        return PhoneNumberType::from(
+            PhoneNumberUtil::getInstance()->getNumberType($this->phoneNumber),
+        );
     }
 
     /**
      * Returns a formatted string representation of this phone number.
-     *
-     * @param PhoneNumberFormat::* $format
-     *
-     * @return string
      */
-    public function format(int $format) : string
+    public function format(PhoneNumberFormat $format) : string
     {
-        return PhoneNumberUtil::getInstance()->format($this->phoneNumber, $format);
+        return PhoneNumberUtil::getInstance()->format($this->phoneNumber, $format->value);
     }
 
     /**

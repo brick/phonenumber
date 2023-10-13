@@ -1,15 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.7.5@5390c212bab06ee230c8720c2e9c54b823db00c8">
+<files psalm-version="5.15.0@5c774aca4746caf3d239d9c8cadb9f882ca29352">
   <file src="src/PhoneNumber.php">
     <InvalidNullableReturnType>
       <code>string</code>
     </InvalidNullableReturnType>
-    <LessSpecificReturnStatement>
-      <code><![CDATA[PhoneNumberUtil::getInstance()->getNumberType($this->phoneNumber)]]></code>
-    </LessSpecificReturnStatement>
-    <MoreSpecificReturnType>
-      <code>PhoneNumberType::*</code>
-    </MoreSpecificReturnType>
     <NullableReturnStatement>
       <code><![CDATA[$this->phoneNumber->getNationalNumber()]]></code>
     </NullableReturnStatement>

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Brick\PhoneNumber;
 
 /**
- * Constants for the phone number formats.
+ * Enum values for the phone number formats.
  */
-final class PhoneNumberFormat
+enum PhoneNumberFormat: int
 {
     /**
      * The E164 format.
@@ -17,7 +17,7 @@ final class PhoneNumberFormat
      *
      * Example: `+41446681800`.
      */
-    public const E164 = 0;
+    case E164 = 0;
 
     /**
      * The international format.
@@ -27,7 +27,7 @@ final class PhoneNumberFormat
      *
      * Example: `+41 44 668 1800`.
      */
-    public const INTERNATIONAL = 1;
+    case INTERNATIONAL = 1;
 
     /**
      * The national format.
@@ -37,7 +37,7 @@ final class PhoneNumberFormat
      *
      * Example: `044 668 1800`.
      */
-    public const NATIONAL = 2;
+    case NATIONAL = 2;
 
     /**
      * The RFC 3966 format.
@@ -46,5 +46,5 @@ final class PhoneNumberFormat
      *
      * Example: `tel:+41-44-668-1800`.
      */
-    public const RFC3966 = 3;
+    case RFC3966 = 3;
 }
