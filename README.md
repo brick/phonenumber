@@ -16,7 +16,8 @@ itself a port of [Google's libphonenumber](https://github.com/googlei18n/libphon
 It provides an equivalent functionality, with the following implementation differences:
 
 - `PhoneNumber` is an immutable class; it can be safely passed around without having to worry about the risk for it to be changed;
-- `PhoneNumber` is not just a mere data container, but provides all the methods to parse, format and validate phone numbers; it transparently encapsulates `PhoneNumberUtil`.
+- `PhoneNumber` is not just a mere data container, but provides all the methods to parse, format and validate phone numbers; it transparently encapsulates `PhoneNumberUtil`;
+- `PhoneNumberFormat` and `PhoneNumberType` are native PHP enums.
 
 ## Installation
 
@@ -98,7 +99,7 @@ As a rule of thumb, do the following:
 
 #### Basic formatting
 
-You can use `format()` with constants from the [PhoneNumberFormat](https://github.com/brick/phonenumber/blob/master/src/PhoneNumberFormat.php) class:
+You can use `format()` with a [PhoneNumberFormat](https://github.com/brick/phonenumber/blob/master/src/PhoneNumberFormat.php) enum value:
 
 ```php
 $number = PhoneNumber::parse('+41446681800');
@@ -123,7 +124,7 @@ $number->formatForCallingFrom('US'); // 011 44 7123 456789
 ### Number types
 
 In certain cases, it is possible to know the type of a phone number (fixed line, mobile phone, etc.), using
-the `getNumberType()` method, which returns a constant from the [PhoneNumberType](https://github.com/brick/phonenumber/blob/master/src/PhoneNumberType.php) class:
+the `getNumberType()` method, which returns a [PhoneNumberType](https://github.com/brick/phonenumber/blob/master/src/PhoneNumberType.php) enum value:
 
 ```php
 PhoneNumber::parse('+336123456789')->getNumberType(); // PhoneNumberType::MOBILE
@@ -131,7 +132,7 @@ PhoneNumber::parse('+33123456789')->getNumberType(); // PhoneNumberType::FIXED_L
 ```
 
 If the type is unknown, the `PhoneNumberType::UNKNOWN` value is returned.
-Check the `PhoneNumberType` class for all possible values.
+Check the `PhoneNumberType` enum for all possible values.
 
 ### Number information
 
