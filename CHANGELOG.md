@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.0](https://github.com/brick/phonenumber/releases/tag/0.6.0) - 2023-11-26
+
+💥 **BC breaks**
+
+- Minimum PHP version is now `8.1`
+- `PhoneNumberType` and `PhoneNumberFormat` are now native PHP enums
+
 ## [0.5.0](https://github.com/brick/phonenumber/releases/tag/0.5.0) - 2023-02-23
 
 **💥 BC breaks**
