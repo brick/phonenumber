@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brick\PhoneNumber;
 
 use JsonSerializable;
+use Stringable;
 use libphonenumber;
 use libphonenumber\geocoding\PhoneNumberOfflineGeocoder;
 use libphonenumber\NumberParseException;
@@ -13,7 +14,7 @@ use libphonenumber\PhoneNumberUtil;
 /**
  * A phone number.
  */
-final class PhoneNumber implements JsonSerializable
+final class PhoneNumber implements Stringable, JsonSerializable
 {
     /**
      * The underlying PhoneNumber object from libphonenumber.
