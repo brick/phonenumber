@@ -96,9 +96,6 @@ class PhoneNumberTest extends TestCase
 
     /**
      * @dataProvider providerGetNationalNumber
-     *
-     * @param string $expectedNationalNumber
-     * @param string $phoneNumber
      */
     public function testGetNationalNumber(string $expectedNationalNumber, string $phoneNumber) : void
     {
@@ -117,10 +114,6 @@ class PhoneNumberTest extends TestCase
 
     /**
      * @dataProvider providerParseNationalNumber
-     *
-     * @param string $expectedNumber
-     * @param string $numberToParse
-     * @param string $regionCode
      */
     public function testParseNationalNumber(string $expectedNumber, string $numberToParse, string $regionCode) : void
     {
@@ -162,9 +155,6 @@ class PhoneNumberTest extends TestCase
 
     /**
      * @dataProvider providerGetRegionCode
-     *
-     * @param string|null $expectedRegion
-     * @param string      $phoneNumber
      */
     public function testGetRegionCode(?string $expectedRegion, string $phoneNumber) : void
     {
@@ -240,8 +230,6 @@ class PhoneNumberTest extends TestCase
     /**
      * @dataProvider providerValidNumbers
      * @dataProvider providerPossibleButNotValidNumbers
-     *
-     * @param string $phoneNumber
      */
     public function testIsPossibleNumber(string $phoneNumber) : void
     {
@@ -250,8 +238,6 @@ class PhoneNumberTest extends TestCase
 
     /**
      * @dataProvider providerNotPossibleNumbers
-     *
-     * @param string $phoneNumber
      */
     public function testIsNotPossibleNumber(string $phoneNumber) : void
     {
@@ -260,8 +246,6 @@ class PhoneNumberTest extends TestCase
 
     /**
      * @dataProvider providerValidNumbers
-     *
-     * @param string $phoneNumber
      */
     public function testIsValidNumber(string $phoneNumber) : void
     {
@@ -271,8 +255,6 @@ class PhoneNumberTest extends TestCase
     /**
      * @dataProvider providerNotPossibleNumbers
      * @dataProvider providerPossibleButNotValidNumbers
-     *
-     * @param string $phoneNumber
      */
     public function testIsNotValidNumber(string $phoneNumber) : void
     {
@@ -313,9 +295,6 @@ class PhoneNumberTest extends TestCase
 
     /**
      * @dataProvider providerParseException
-     *
-     * @param string $phoneNumber
-     * @param string|null $regionCode
      */
     public function testParseException(string $phoneNumber, ?string $regionCode = null) : void
     {
@@ -469,10 +448,6 @@ class PhoneNumberTest extends TestCase
 
     /**
      * @dataProvider providerFormatForCallingFrom
-     *
-     * @param string $phoneNumber
-     * @param string $countryCode
-     * @param string $expected
      */
     public function testFormatForCallingFrom(string $phoneNumber, string $countryCode, string $expected) : void
     {

@@ -11,10 +11,6 @@ final class PhoneNumberParseException extends PhoneNumberException
 {
     /**
      * @internal
-     *
-     * @param \Exception $e
-     *
-     * @return PhoneNumberParseException
      */
     public static function wrap(\Exception $e) : PhoneNumberParseException
     {
