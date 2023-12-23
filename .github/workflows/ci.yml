@@ -5,8 +5,8 @@ on:
   pull_request:
 
 env:
-  PSALM_PHP_VERSION: "8.2"
-  COVERAGE_PHP_VERSION: "8.2"
+  PSALM_PHP_VERSION: "8.3"
+  COVERAGE_PHP_VERSION: "8.3"
 
 jobs:
   psalm:
