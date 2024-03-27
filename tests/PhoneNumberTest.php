@@ -6,10 +6,10 @@ namespace Brick\PhoneNumber\Tests;
 
 use Brick\PhoneNumber\PhoneNumber;
 use Brick\PhoneNumber\PhoneNumberException;
+use Brick\PhoneNumber\PhoneNumberFormat;
 use Brick\PhoneNumber\PhoneNumberParseException;
 use Brick\PhoneNumber\PhoneNumberType;
-use Brick\PhoneNumber\PhoneNumberFormat;
-
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -55,9 +55,7 @@ class PhoneNumberTest extends TestCase
     private const UNIVERSAL_PREMIUM_RATE = '+979123456789';
     private const UNKNOWN_COUNTRY_CODE_NO_RAW_INPUT = '+212345';
 
-    /**
-     * @dataProvider providerGetExampleNumber
-     */
+    #[DataProvider('providerGetExampleNumber')]
     public function testGetExampleNumber(string $regionCode, string $callingCode, ?PhoneNumberType $numberType = null) : void
     {
         if ($numberType === null) {
@@ -94,9 +92,7 @@ class PhoneNumberTest extends TestCase
         PhoneNumber::getExampleNumber('ZZ');
     }
 
-    /**
-     * @dataProvider providerGetNationalNumber
-     */
+    #[DataProvider('providerGetNationalNumber')]
     public function testGetNationalNumber(string $expectedNationalNumber, string $phoneNumber) : void
     {
         self::assertSame($expectedNationalNumber, PhoneNumber::parse($phoneNumber)->getNationalNumber());
@@ -112,9 +108,7 @@ class PhoneNumberTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider providerParseNationalNumber
-     */
+    #[DataProvider('providerParseNationalNumber')]
     public function testParseNationalNumber(string $expectedNumber, string $numberToParse, string $regionCode) : void
     {
         self::assertSame($expectedNumber, (string) PhoneNumber::parse($numberToParse, $regionCode));
@@ -153,9 +147,7 @@ class PhoneNumberTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider providerGetRegionCode
-     */
+    #[DataProvider('providerGetRegionCode')]
     public function testGetRegionCode(?string $expectedRegion, string $phoneNumber) : void
     {
         self::assertSame($expectedRegion, PhoneNumber::parse($phoneNumber)->getRegionCode());
@@ -171,9 +163,7 @@ class PhoneNumberTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider providerGetNumberType
-     */
+    #[DataProvider('providerGetNumberType')]
     public function testGetNumberType(PhoneNumberType $numberType, string $phoneNumber) : void
     {
         self::assertSame($numberType, PhoneNumber::parse($phoneNumber)->getNumberType());
@@ -227,35 +217,27 @@ class PhoneNumberTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider providerValidNumbers
-     * @dataProvider providerPossibleButNotValidNumbers
-     */
+    #[DataProvider('providerValidNumbers')]
+    #[DataProvider('providerPossibleButNotValidNumbers')]
     public function testIsPossibleNumber(string $phoneNumber) : void
     {
         self::assertTrue(PhoneNumber::parse($phoneNumber)->isPossibleNumber());
     }
 
-    /**
-     * @dataProvider providerNotPossibleNumbers
-     */
+    #[DataProvider('providerNotPossibleNumbers')]
     public function testIsNotPossibleNumber(string $phoneNumber) : void
     {
         self::assertFalse(PhoneNumber::parse($phoneNumber)->isPossibleNumber());
     }
 
-    /**
-     * @dataProvider providerValidNumbers
-     */
+    #[DataProvider('providerValidNumbers')]
     public function testIsValidNumber(string $phoneNumber) : void
     {
         self::assertTrue(PhoneNumber::parse($phoneNumber)->isValidNumber());
     }
 
-    /**
-     * @dataProvider providerNotPossibleNumbers
-     * @dataProvider providerPossibleButNotValidNumbers
-     */
+    #[DataProvider('providerNotPossibleNumbers')]
+    #[DataProvider('providerPossibleButNotValidNumbers')]
     public function testIsNotValidNumber(string $phoneNumber) : void
     {
         self::assertFalse(PhoneNumber::parse($phoneNumber)->isValidNumber());
@@ -293,9 +275,7 @@ class PhoneNumberTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider providerParseException
-     */
+    #[DataProvider('providerParseException')]
     public function testParseException(string $phoneNumber, ?string $regionCode = null) : void
     {
         $this->expectException(PhoneNumberParseException::class);
@@ -344,9 +324,7 @@ class PhoneNumberTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider providerFormatNumber
-     */
+    #[DataProvider('providerFormatNumber')]
     public function testFormatNumber(string $expected, string $phoneNumber, PhoneNumberFormat $numberFormat) : void
     {
         self::assertSame($expected, PhoneNumber::parse($phoneNumber)->format($numberFormat));
@@ -446,9 +424,7 @@ class PhoneNumberTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider providerFormatForCallingFrom
-     */
+    #[DataProvider('providerFormatForCallingFrom')]
     public function testFormatForCallingFrom(string $phoneNumber, string $countryCode, string $expected) : void
     {
         self::assertSame($expected, PhoneNumber::parse($phoneNumber)->formatForCallingFrom($countryCode));
@@ -474,9 +450,7 @@ class PhoneNumberTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider providerGetGeographicalAreaCode
-     */
+    #[DataProvider('providerGetGeographicalAreaCode')]
     public function testGetGeographicalAreaCode(string $phoneNumber, string $areaCode) : void
     {
         self::assertSame($areaCode, PhoneNumber::parse($phoneNumber)->getGeographicalAreaCode());
@@ -496,9 +470,7 @@ class PhoneNumberTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider providerIsEqualTo
-     */
+    #[DataProvider('providerIsEqualTo')]
     public function testIsEqualTo(string $phoneNumber1, string $phoneNumber2, bool $isEqual): void
     {
         $phoneNumber1 = PhoneNumber::parse($phoneNumber1);
@@ -528,10 +500,9 @@ class PhoneNumberTest extends TestCase
      * The data provider may provide several possible results, as the results differ depending on the version of the
      * underlying phonenumber library.
      *
-     * @dataProvider providerGetDescription
-     *
      * @param (string|null)[] $expected
      */
+    #[DataProvider('providerGetDescription')]
     public function testGetDescription(string $phoneNumber, string $locale, ?string $userRegion, array $expected) : void
     {
         self::assertContains(PhoneNumber::parse($phoneNumber)->getDescription($locale, $userRegion), $expected);
