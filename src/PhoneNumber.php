@@ -78,7 +78,10 @@ final class PhoneNumber implements Stringable, JsonSerializable
      */
     public function getCountryCode() : string
     {
-        return (string) $this->phoneNumber->getCountryCode();
+        $countryCode = $this->phoneNumber->getCountryCode();
+        assert($countryCode !== null);
+
+        return (string) $countryCode;
     }
 
     /**
@@ -115,7 +118,10 @@ final class PhoneNumber implements Stringable, JsonSerializable
      */
     public function getNationalNumber() : string
     {
-        return $this->phoneNumber->getNationalNumber();
+        $nationalNumber = $this->phoneNumber->getNationalNumber();
+        assert($nationalNumber !== null);
+
+        return $nationalNumber;
     }
 
     /**
