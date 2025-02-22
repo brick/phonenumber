@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brick\PhoneNumber;
 
 use JsonSerializable;
+use Override;
 use Stringable;
 use libphonenumber;
 use libphonenumber\geocoding\PhoneNumberOfflineGeocoder;
@@ -208,6 +209,7 @@ final class PhoneNumber implements Stringable, JsonSerializable
     /**
      * Required by interface JsonSerializable.
      */
+    #[Override]
     public function jsonSerialize(): string
     {
         return (string) $this;
@@ -255,6 +257,7 @@ final class PhoneNumber implements Stringable, JsonSerializable
      *
      * @return string
      */
+    #[Override]
     public function __toString() : string
     {
         return $this->format(PhoneNumberFormat::E164);
