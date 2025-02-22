@@ -46,7 +46,7 @@ final class PhoneNumber implements Stringable, JsonSerializable
                 PhoneNumberUtil::getInstance()->parse($phoneNumber, $regionCode)
             );
         } catch (NumberParseException $e) {
-            throw PhoneNumberParseException::wrap($e);
+            throw new PhoneNumberParseException($e);
         }
     }
 

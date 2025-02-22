@@ -11,11 +11,18 @@ use libphonenumber\NumberParseException;
  */
 final class PhoneNumberParseException extends PhoneNumberException
 {
+    public readonly PhoneNumberParseErrorType $errorType;
+
     /**
      * @internal
      */
-    public static function wrap(NumberParseException $e) : PhoneNumberParseException
+    public function __construct(NumberParseException $exception)
     {
-        return new PhoneNumberParseException($e->getMessage(), $e->getCode(), $e);
+        /** @var int $errorType */
+        $errorType = $exception->getErrorType();
+
+        parent::__construct($exception->getMessage(), $errorType, $exception);
+
+        $this->errorType = PhoneNumberParseErrorType::from($errorType);
     }
 }

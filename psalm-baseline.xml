@@ -1,8 +1,2 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.15.0@5c774aca4746caf3d239d9c8cadb9f882ca29352">
-  <file src="src/PhoneNumberParseException.php">
-    <PossiblyInvalidArgument>
-      <code><![CDATA[$e->getCode()]]></code>
-    </PossiblyInvalidArgument>
-  </file>
-</files>
+<files psalm-version="6.3.0@222dda8483516044c2ed7a4c3f197d7c9d6c3ddb"/>

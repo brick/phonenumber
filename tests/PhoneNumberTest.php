@@ -7,6 +7,7 @@ namespace Brick\PhoneNumber\Tests;
 use Brick\PhoneNumber\PhoneNumber;
 use Brick\PhoneNumber\PhoneNumberException;
 use Brick\PhoneNumber\PhoneNumberFormat;
+use Brick\PhoneNumber\PhoneNumberParseErrorType;
 use Brick\PhoneNumber\PhoneNumberParseException;
 use Brick\PhoneNumber\PhoneNumberType;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -276,51 +277,62 @@ class PhoneNumberTest extends TestCase
     }
 
     #[DataProvider('providerParseException')]
-    public function testParseException(string $phoneNumber, ?string $regionCode = null) : void
-    {
-        $this->expectException(PhoneNumberParseException::class);
-        PhoneNumber::parse($phoneNumber, $regionCode);
+    public function testParseException(
+        string $phoneNumber,
+        ?string $regionCode,
+        PhoneNumberParseErrorType $errorType,
+    ) : void {
+        try {
+            PhoneNumber::parse($phoneNumber, $regionCode);
+        } catch (PhoneNumberParseException $e) {
+            self::assertSame($errorType, $e->errorType);
+            self::assertSame($errorType->value, $e->getCode());
+
+            return;
+        }
+
+        self::fail('Expected PhoneNumberParseException was not thrown.');
     }
 
     public static function providerParseException() : array
     {
         return [
             // Empty string.
-            [''],
-            ['', 'US'],
+            ['', null, PhoneNumberParseErrorType::NOT_A_NUMBER],
+            ['', 'US', PhoneNumberParseErrorType::NOT_A_NUMBER],
 
-            ['This is not a phone number', 'NZ'],
-            ['1 Still not a number', 'NZ'],
-            ['1 MICROSOFT', 'NZ'],
-            ['12 MICROSOFT', 'NZ'],
-            ['01495 72553301873 810104', 'GB'],
-            ['+---', 'DE'],
-            ['+***', 'DE'],
-            ['+*******91', 'DE'],
-            ['+ 00 210 3 331 6005', 'NZ'],
+            ['This is not a phone number', 'NZ', PhoneNumberParseErrorType::NOT_A_NUMBER],
+            ['1 Still not a number', 'NZ', PhoneNumberParseErrorType::NOT_A_NUMBER],
+            ['1 MICROSOFT', 'NZ', PhoneNumberParseErrorType::NOT_A_NUMBER],
+            ['12 MICROSOFT', 'NZ', PhoneNumberParseErrorType::NOT_A_NUMBER],
+            ['01495 72553301873 810104', 'GB', PhoneNumberParseErrorType::TOO_LONG],
+            ['+---', 'DE', PhoneNumberParseErrorType::NOT_A_NUMBER],
+            ['+***', 'DE', PhoneNumberParseErrorType::NOT_A_NUMBER],
+            ['+*******91', 'DE', PhoneNumberParseErrorType::NOT_A_NUMBER],
+            ['+ 00 210 3 331 6005', 'NZ', PhoneNumberParseErrorType::INVALID_COUNTRY_CODE],
 
             // Too short.
-            ['+49 0', 'DE'],
+            ['+49 0', 'DE', PhoneNumberParseErrorType::TOO_SHORT_NSN],
 
             // Does not match a country code.
-            ['+02366'],
-            ['+210 3456 56789', 'NZ'],
+            ['+02366', null, PhoneNumberParseErrorType::INVALID_COUNTRY_CODE],
+            ['+210 3456 56789', 'NZ', PhoneNumberParseErrorType::INVALID_COUNTRY_CODE],
 
             // A region code must be given if not in international format.
-            ['123 456 7890'],
+            ['123 456 7890', null, PhoneNumberParseErrorType::INVALID_COUNTRY_CODE],
 
             // Unknown region code (deprecated and removed from ISO 3166-2).
-            ['123 456 7890', 'CS'],
+            ['123 456 7890', 'CS', PhoneNumberParseErrorType::INVALID_COUNTRY_CODE],
 
             // No number, only region code.
-            ['0044', 'GB'],
-            ['0044------', 'GB'],
+            ['0044', 'GB', PhoneNumberParseErrorType::TOO_SHORT_AFTER_IDD],
+            ['0044------', 'GB', PhoneNumberParseErrorType::TOO_SHORT_AFTER_IDD],
 
             // Only IDD provided.
-            ['011', 'US'],
+            ['011', 'US', PhoneNumberParseErrorType::TOO_SHORT_AFTER_IDD],
 
             // Only IDD and then 9.
-            ['0119', 'US']
+            ['0119', 'US', PhoneNumberParseErrorType::TOO_SHORT_AFTER_IDD]
         ];
     }
 

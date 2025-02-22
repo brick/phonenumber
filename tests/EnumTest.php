@@ -6,6 +6,7 @@ namespace Brick\PhoneNumber\Tests;
 
 use BackedEnum;
 use Brick\PhoneNumber\PhoneNumberFormat;
+use Brick\PhoneNumber\PhoneNumberParseErrorType;
 use Brick\PhoneNumber\PhoneNumberType;
 
 use PHPUnit\Framework\TestCase;
@@ -40,5 +41,10 @@ class EnumTest extends TestCase
     public function testPhoneNumberTypes() : void
     {
         self::assertEnumEqualsConstants(\libphonenumber\PhoneNumberType::class, PhoneNumberType::class);
+    }
+
+    public function testPhoneNumberParseErrorTypes() : void
+    {
+        self::assertEnumEqualsConstants(\libphonenumber\NumberParseException::class, PhoneNumberParseErrorType::class);
     }
 }
