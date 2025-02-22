@@ -18,8 +18,6 @@ use PHPUnit\Framework\TestCase;
  */
 class PhoneNumberTest extends TestCase
 {
-    private const ALPHA_NUMERIC_NUMBER = '+180074935247';
-    private const AE_UAN = '+971600123456';
     private const AR_MOBILE = '+5491187654321';
     private const AR_NUMBER = '+541187654321';
     private const AU_NUMBER = '+61236618300';
@@ -27,26 +25,20 @@ class PhoneNumberTest extends TestCase
     private const BS_NUMBER = '+12423651234';
     // Note that this is the same as the example number for DE in the metadata.
     private const DE_NUMBER = '+4930123456';
-    private const DE_SHORT_NUMBER = '+491234';
     private const GB_MOBILE = '+447912345678';
     private const GB_NUMBER = '+442070313000';
     private const IT_MOBILE = '+39345678901';
     private const IT_NUMBER = '+390236618300';
-    private const JP_STAR_NUMBER = '+812345';
     // Numbers to test the formatting rules from Mexico.
     private const MX_MOBILE1 = '+5212345678900';
     private const MX_MOBILE2 = '+5215512345678';
     private const MX_NUMBER1 = '+523312345678';
     private const MX_NUMBER2 = '+528211234567';
     private const NZ_NUMBER = '+6433316005';
-    private const SG_NUMBER = '+6565218000';
-    // A too-long and hence invalid US number.
-    private const US_LONG_NUMBER = '+165025300001';
     private const US_NUMBER = '+16502530000';
     private const US_PREMIUM = '+19002530000';
     // Too short, but still possible US numbers.
     private const US_LOCAL_NUMBER = '+12530000';
-    private const US_SHORT_BY_ONE_NUMBER = '+1650253000';
     private const US_TOLLFREE = '+18002530000';
     private const INTERNATIONAL_TOLL_FREE = '+80012345678';
     // We set this to be the same length as numbers for the other non-geographical country prefix that
@@ -54,7 +46,6 @@ class PhoneNumberTest extends TestCase
     // their country calling code.
     private const INTERNATIONAL_TOLL_FREE_TOO_LONG = '+800123456789';
     private const UNIVERSAL_PREMIUM_RATE = '+979123456789';
-    private const UNKNOWN_COUNTRY_CODE_NO_RAW_INPUT = '+212345';
 
     #[DataProvider('providerGetExampleNumber')]
     public function testGetExampleNumber(string $regionCode, string $callingCode, ?PhoneNumberType $numberType = null) : void
@@ -135,16 +126,14 @@ class PhoneNumberTest extends TestCase
             [self::NZ_NUMBER, '01164 3 331 6005', 'US'],
             [self::NZ_NUMBER, '+64 3 331 6005', 'US'],
 
-// @todo
-//            ['+6464123456', '64(0)64123456', 'NZ'],
+            ['+6464123456', '64(0)64123456', 'NZ'],
 
             // Check that using a '/' is fine in a phone number.
             [self::DE_NUMBER, '301/23456', 'DE'],
 
             // Check it doesn't use the '1' as a country calling code
             // when parsing if the phone number was already possible
-// @todo
-//            ['+11234567890', '123-456-7890', 'US']
+            ['+11234567890', '123-456-7890', 'US']
         ];
     }
 
@@ -179,25 +168,15 @@ class PhoneNumberTest extends TestCase
             [PhoneNumberType::PREMIUM_RATE, '+499001654321'],
             [PhoneNumberType::PREMIUM_RATE, '+4990091234567'],
             [PhoneNumberType::PREMIUM_RATE, self::UNIVERSAL_PREMIUM_RATE],
-// @todo doesn't work in online r557 either
-//            [PhoneNumberType::TOLL_FREE, '+18881234567'],
             [PhoneNumberType::TOLL_FREE, '+39803123'],
-// @todo doesn't work in online r557 either
-//            [PhoneNumberType::TOLL_FREE, '+448012345678'],
             [PhoneNumberType::TOLL_FREE, '+498001234567'],
             [PhoneNumberType::TOLL_FREE, self::INTERNATIONAL_TOLL_FREE],
 
             [PhoneNumberType::MOBILE, self::BS_MOBILE],
             [PhoneNumberType::MOBILE, self::GB_MOBILE],
-// @todo doesn't work in online r557 either
-//            [PhoneNumberType::MOBILE, self::IT_MOBILE],
-//            [PhoneNumberType::MOBILE, self::AR_MOBILE],
-// @todo this matches both fixedLine & mobile, but is still reported as MOBILE in the java version
-//            [PhoneNumberType::MOBILE, '+4915123456789'],
-// @todo doesn't work in online r557 either
-//            [PhoneNumberType::MOBILE, self::MX_MOBILE1],
-// @todo changed from MOBILE to FIXED_LINE_OR_MOBILE in 8.10.17
-//            [PhoneNumberType::MOBILE, self::MX_MOBILE2],
+            [PhoneNumberType::MOBILE, self::IT_MOBILE],
+            [PhoneNumberType::MOBILE, self::AR_MOBILE],
+            [PhoneNumberType::MOBILE, '+4915123456789'],
 
             [PhoneNumberType::FIXED_LINE, self::BS_NUMBER],
             [PhoneNumberType::FIXED_LINE, self::IT_NUMBER],
@@ -205,10 +184,6 @@ class PhoneNumberTest extends TestCase
             [PhoneNumberType::FIXED_LINE, self::DE_NUMBER],
 
             [PhoneNumberType::FIXED_LINE_OR_MOBILE, self::US_NUMBER],
-// @todo doesn't work in online r557 either
-//            [PhoneNumberType::FIXED_LINE_OR_MOBILE, '+541987654321'],
-// @todo not a good example, changed from SHARED_COST (v7) to PREMIUM_RATE (v8)
-//            [PhoneNumberType::SHARED_COST, '+448431231234'],
 
             [PhoneNumberType::VOIP, '+445631231234'],
 
@@ -417,22 +392,21 @@ class PhoneNumberTest extends TestCase
             ['+5491187654321', self::AR_MOBILE, PhoneNumberFormat::E164],
 
             // MX
-// @todo bad tests, MX rules changed in upstream 8.10.17
-//            ['044 234 567 8900', self::MX_MOBILE1, PhoneNumberFormat::NATIONAL],
-//            ['+52 1 234 567 8900', self::MX_MOBILE1, PhoneNumberFormat::INTERNATIONAL],
-//            ['+5212345678900', self::MX_MOBILE1, PhoneNumberFormat::E164],
-//
-//            ['044 55 1234 5678', self::MX_MOBILE2, PhoneNumberFormat::NATIONAL],
-//            ['+52 1 55 1234 5678', self::MX_MOBILE2, PhoneNumberFormat::INTERNATIONAL],
-//            ['+5215512345678', self::MX_MOBILE2, PhoneNumberFormat::E164],
-//
-//            ['01 33 1234 5678', self::MX_NUMBER1, PhoneNumberFormat::NATIONAL],
-//            ['+52 33 1234 5678', self::MX_NUMBER1, PhoneNumberFormat::INTERNATIONAL],
-//            ['+523312345678', self::MX_NUMBER1, PhoneNumberFormat::E164],
-//
-//            ['01 821 123 4567', self::MX_NUMBER2, PhoneNumberFormat::NATIONAL],
-//            ['+52 821 123 4567', self::MX_NUMBER2, PhoneNumberFormat::INTERNATIONAL],
-//            ['+528211234567', self::MX_NUMBER2, PhoneNumberFormat::E164]
+            ['12345678900', self::MX_MOBILE1, PhoneNumberFormat::NATIONAL],
+            ['+52 12345678900', self::MX_MOBILE1, PhoneNumberFormat::INTERNATIONAL],
+            ['+5212345678900', self::MX_MOBILE1, PhoneNumberFormat::E164],
+
+            ['15512345678', self::MX_MOBILE2, PhoneNumberFormat::NATIONAL],
+            ['+52 15512345678', self::MX_MOBILE2, PhoneNumberFormat::INTERNATIONAL],
+            ['+5215512345678', self::MX_MOBILE2, PhoneNumberFormat::E164],
+
+            ['33 1234 5678', self::MX_NUMBER1, PhoneNumberFormat::NATIONAL],
+            ['+52 33 1234 5678', self::MX_NUMBER1, PhoneNumberFormat::INTERNATIONAL],
+            ['+523312345678', self::MX_NUMBER1, PhoneNumberFormat::E164],
+
+            ['821 123 4567', self::MX_NUMBER2, PhoneNumberFormat::NATIONAL],
+            ['+52 821 123 4567', self::MX_NUMBER2, PhoneNumberFormat::INTERNATIONAL],
+            ['+528211234567', self::MX_NUMBER2, PhoneNumberFormat::E164]
         ];
     }
 
