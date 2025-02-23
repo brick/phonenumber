@@ -328,8 +328,8 @@ class PhoneNumberTest extends TestCase
         ];
     }
 
-    #[DataProvider('providerFormatNumber')]
-    public function testFormatNumber(
+    #[DataProvider('providerFormat')]
+    public function testFormat(
         string $expected,
         string $phoneNumber,
         PhoneNumberFormat $numberFormat,
@@ -342,7 +342,7 @@ class PhoneNumberTest extends TestCase
         self::assertSame($expected, PhoneNumber::parse($phoneNumber)->format($numberFormat));
     }
 
-    public static function providerFormatNumber() : array
+    public static function providerFormat() : array
     {
         return [
             // US
