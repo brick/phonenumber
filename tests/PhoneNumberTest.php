@@ -10,6 +10,7 @@ use Brick\PhoneNumber\PhoneNumberFormat;
 use Brick\PhoneNumber\PhoneNumberParseErrorType;
 use Brick\PhoneNumber\PhoneNumberParseException;
 use Brick\PhoneNumber\PhoneNumberType;
+use Composer\InstalledVersions;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
@@ -101,8 +102,16 @@ class PhoneNumberTest extends TestCase
     }
 
     #[DataProvider('providerParseNationalNumber')]
-    public function testParseNationalNumber(string $expectedNumber, string $numberToParse, string $regionCode) : void
-    {
+    public function testParseNationalNumber(
+        string $expectedNumber,
+        string $numberToParse,
+        string $regionCode,
+        ?string $minimumUpstreamVersion = null,
+    ) : void {
+        if ($minimumUpstreamVersion !== null) {
+            self::requireUpstreamVersion($minimumUpstreamVersion);
+        }
+
         self::assertSame($expectedNumber, (string) PhoneNumber::parse($numberToParse, $regionCode));
     }
 
@@ -126,14 +135,14 @@ class PhoneNumberTest extends TestCase
             [self::NZ_NUMBER, '01164 3 331 6005', 'US'],
             [self::NZ_NUMBER, '+64 3 331 6005', 'US'],
 
-            ['+6464123456', '64(0)64123456', 'NZ'],
+            ['+6464123456', '64(0)64123456', 'NZ', '8.13.38'],
 
             // Check that using a '/' is fine in a phone number.
             [self::DE_NUMBER, '301/23456', 'DE'],
 
             // Check it doesn't use the '1' as a country calling code
             // when parsing if the phone number was already possible
-            ['+11234567890', '123-456-7890', 'US']
+            ['+11234567890', '123-456-7890', 'US', '8.13.38']
         ];
     }
 
@@ -154,8 +163,15 @@ class PhoneNumberTest extends TestCase
     }
 
     #[DataProvider('providerGetNumberType')]
-    public function testGetNumberType(PhoneNumberType $numberType, string $phoneNumber) : void
-    {
+    public function testGetNumberType(
+        PhoneNumberType $numberType,
+        string $phoneNumber,
+        ?string $minimumUpstreamVersion = null,
+    ) : void {
+        if ($minimumUpstreamVersion !== null) {
+            self::requireUpstreamVersion($minimumUpstreamVersion);
+        }
+
         self::assertSame($numberType, PhoneNumber::parse($phoneNumber)->getNumberType());
     }
 
@@ -174,7 +190,7 @@ class PhoneNumberTest extends TestCase
 
             [PhoneNumberType::MOBILE, self::BS_MOBILE],
             [PhoneNumberType::MOBILE, self::GB_MOBILE],
-            [PhoneNumberType::MOBILE, self::IT_MOBILE],
+            [PhoneNumberType::MOBILE, self::IT_MOBILE, '8.13.38'],
             [PhoneNumberType::MOBILE, self::AR_MOBILE],
             [PhoneNumberType::MOBILE, '+4915123456789'],
 
@@ -312,8 +328,16 @@ class PhoneNumberTest extends TestCase
     }
 
     #[DataProvider('providerFormatNumber')]
-    public function testFormatNumber(string $expected, string $phoneNumber, PhoneNumberFormat $numberFormat) : void
-    {
+    public function testFormatNumber(
+        string $expected,
+        string $phoneNumber,
+        PhoneNumberFormat $numberFormat,
+        ?string $minimumUpstreamVersion = null,
+    ) : void {
+        if ($minimumUpstreamVersion !== null) {
+            self::requireUpstreamVersion($minimumUpstreamVersion);
+        }
+
         self::assertSame($expected, PhoneNumber::parse($phoneNumber)->format($numberFormat));
     }
 
@@ -392,19 +416,19 @@ class PhoneNumberTest extends TestCase
             ['+5491187654321', self::AR_MOBILE, PhoneNumberFormat::E164],
 
             // MX
-            ['12345678900', self::MX_MOBILE1, PhoneNumberFormat::NATIONAL],
-            ['+52 12345678900', self::MX_MOBILE1, PhoneNumberFormat::INTERNATIONAL],
+            ['12345678900', self::MX_MOBILE1, PhoneNumberFormat::NATIONAL, '8.13.38'],
+            ['+52 12345678900', self::MX_MOBILE1, PhoneNumberFormat::INTERNATIONAL, '8.13.38'],
             ['+5212345678900', self::MX_MOBILE1, PhoneNumberFormat::E164],
 
-            ['15512345678', self::MX_MOBILE2, PhoneNumberFormat::NATIONAL],
-            ['+52 15512345678', self::MX_MOBILE2, PhoneNumberFormat::INTERNATIONAL],
+            ['15512345678', self::MX_MOBILE2, PhoneNumberFormat::NATIONAL, '8.13.38'],
+            ['+52 15512345678', self::MX_MOBILE2, PhoneNumberFormat::INTERNATIONAL, '8.13.38'],
             ['+5215512345678', self::MX_MOBILE2, PhoneNumberFormat::E164],
 
-            ['33 1234 5678', self::MX_NUMBER1, PhoneNumberFormat::NATIONAL],
+            ['33 1234 5678', self::MX_NUMBER1, PhoneNumberFormat::NATIONAL, '8.13.38'],
             ['+52 33 1234 5678', self::MX_NUMBER1, PhoneNumberFormat::INTERNATIONAL],
             ['+523312345678', self::MX_NUMBER1, PhoneNumberFormat::E164],
 
-            ['821 123 4567', self::MX_NUMBER2, PhoneNumberFormat::NATIONAL],
+            ['821 123 4567', self::MX_NUMBER2, PhoneNumberFormat::NATIONAL, '8.13.38'],
             ['+52 821 123 4567', self::MX_NUMBER2, PhoneNumberFormat::INTERNATIONAL],
             ['+528211234567', self::MX_NUMBER2, PhoneNumberFormat::E164]
         ];
@@ -531,5 +555,15 @@ class PhoneNumberTest extends TestCase
 
             ['+37328000000', 'XX', null, [null]],
         ];
+    }
+
+    public static function requireUpstreamVersion(string $version): void
+    {
+        $packageName = 'giggsey/libphonenumber-for-php';
+        $installedVersion = InstalledVersions::getVersion($packageName);
+
+        if (version_compare($installedVersion, $version, '<')) {
+            self::markTestSkipped(sprintf('This test requires %s version %s or later.', $packageName, $version));
+        }
     }
 }
