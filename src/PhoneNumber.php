@@ -203,9 +203,21 @@ final class PhoneNumber implements Stringable, JsonSerializable
         return PhoneNumberUtil::getInstance()->formatOutOfCountryCallingNumber($this->phoneNumber, $regionCode);
     }
 
-    public function formatForMobileDialing(string $regionCallingFrom, bool $withFormatting): string
+    /**
+     * Returns a number formatted in such a way that it can be dialed from a mobile phone in a specific region.
+     *
+     * If the number cannot be reached from the region (e.g. some countries block toll-free numbers from being called
+     * from outside the country), this method returns null.
+     */
+    public function formatForMobileDialing(string $regionCallingFrom, bool $withFormatting): ?string
     {
-        return PhoneNumberUtil::getInstance()->formatNumberForMobileDialing($this->phoneNumber, $regionCallingFrom, $withFormatting);
+        $result = PhoneNumberUtil::getInstance()->formatNumberForMobileDialing(
+            $this->phoneNumber,
+            $regionCallingFrom,
+            $withFormatting,
+        );
+
+        return $result === '' ? null : $result;
     }
 
     public function isEqualTo(PhoneNumber $phoneNumber): bool

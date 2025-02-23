@@ -466,7 +466,7 @@ class PhoneNumberTest extends TestCase
         string $phoneNumber,
         string $regionCallingFrom,
         bool $withFormatting,
-        string $expected,
+        ?string $expected,
     ) : void {
         $actual = PhoneNumber::parse($phoneNumber)->formatForMobileDialing($regionCallingFrom, $withFormatting);
         self::assertSame($expected, $actual);
@@ -483,6 +483,8 @@ class PhoneNumberTest extends TestCase
             ['+33123456789', 'US', true, '+33 1 23 45 67 89'],
             ['+33123456789', 'CA', false, '+33123456789'],
             ['+33123456789', 'CA', true, '+33 1 23 45 67 89'],
+            ['+558001234567', 'CN', false, null],
+            ['+558001234567', 'CN', true, null],
         ];
     }
 
