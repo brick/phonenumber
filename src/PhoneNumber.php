@@ -296,6 +296,8 @@ final class PhoneNumber implements Stringable, JsonSerializable
     public function getTimeZones(): array
     {
         $timeZoneMapper = PhoneNumberToTimeZonesMapper::getInstance();
+
+        /** @var string[] $timeZones */
         $timeZones = $timeZoneMapper->getTimeZonesForNumber($this->phoneNumber);
 
         if ($timeZones === [PhoneNumberToTimeZonesMapper::UNKNOWN_TIMEZONE]) {
