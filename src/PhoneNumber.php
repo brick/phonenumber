@@ -9,6 +9,7 @@ use Override;
 use Stringable;
 use libphonenumber;
 use libphonenumber\geocoding\PhoneNumberOfflineGeocoder;
+use libphonenumber\PhoneNumberToCarrierMapper;
 use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberUtil;
 
@@ -216,7 +217,7 @@ final class PhoneNumber implements Stringable, JsonSerializable
     }
 
     /**
-     * Returns a text description for the given phone number, in the language provided. The description might consist of
+     * Returns a text description for this phone number, in the language provided. The description might consist of
      * the name of the country where the phone number is from, or the name of the geographical area the phone number is
      * from if more detailed information is available.
      *
@@ -250,6 +251,31 @@ final class PhoneNumber implements Stringable, JsonSerializable
         }
 
         return $description;
+    }
+
+    /**
+     * Returns the name of the carrier for this phone number, in the given language.
+     *
+     * The carrier name is the one the number was originally allocated to, however if the country supports mobile number
+     * portability the number might not belong to the returned carrier anymore.
+     *
+     * The conditions for returning a carrier name can be configured with the CarrierNameMode enum.
+     *
+     * This method returns null if the carrier is unknown, or the conditions for returning a carrier name are not met.
+     */
+    public function getCarrierName(
+        string $languageCode,
+        CarrierNameMode $mode = CarrierNameMode::ALWAYS,
+    ): ?string {
+        $carrierMapper = PhoneNumberToCarrierMapper::getInstance();
+
+        $carrierName = match ($mode) {
+            CarrierNameMode::ALWAYS => $carrierMapper->getNameForValidNumber($this->phoneNumber, $languageCode),
+            CarrierNameMode::MOBILE_ONLY => $carrierMapper->getNameForNumber($this->phoneNumber, $languageCode),
+            CarrierNameMode::MOBILE_NO_PORTABILITY_ONLY => $carrierMapper->getSafeDisplayName($this->phoneNumber, $languageCode),
+        };
+
+        return $carrierName === '' ? null : $carrierName;
     }
 
     /**

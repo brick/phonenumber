@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Brick\PhoneNumber\Tests;
 
+use Brick\PhoneNumber\CarrierNameMode;
 use Brick\PhoneNumber\PhoneNumber;
 use Brick\PhoneNumber\PhoneNumberException;
 use Brick\PhoneNumber\PhoneNumberFormat;
@@ -554,6 +555,38 @@ class PhoneNumberTest extends TestCase
             ['+41229097000', 'XX', null, ['Geneva']],
 
             ['+37328000000', 'XX', null, [null]],
+        ];
+    }
+
+    #[DataProvider('providerGetCarrierName')]
+    public function testGetCarrierName(
+        string $phoneNumber,
+        string $languageCode,
+        CarrierNameMode $mode,
+        ?string $expectedCarrierName,
+        ?string $minimumUpstreamVersion = null,
+    ): void {
+        if ($minimumUpstreamVersion !== null) {
+            self::requireUpstreamVersion($minimumUpstreamVersion);
+        }
+
+        $carrierName = PhoneNumber::parse($phoneNumber)->getCarrierName($languageCode, $mode);
+        self::assertSame($expectedCarrierName, $carrierName);
+    }
+
+    public static function providerGetCarrierName(): array
+    {
+        return [
+            ['+33600012345', 'en', CarrierNameMode::ALWAYS, 'Free Mobile', '8.11.1'],
+            ['+33600012345', 'fr', CarrierNameMode::ALWAYS, 'Free Mobile', '8.11.1'],
+            ['+33600012345', 'fr', CarrierNameMode::MOBILE_ONLY, 'Free Mobile', '8.11.1'],
+            ['+33600012345', 'fr', CarrierNameMode::MOBILE_NO_PORTABILITY_ONLY, null], // France supports portability
+            ['+33900000000', 'fr', CarrierNameMode::ALWAYS, null],
+            ['+447305123456', 'en', CarrierNameMode::ALWAYS, 'Virgin Mobile', '8.0.1'],
+            ['+447305123456', 'fr', CarrierNameMode::ALWAYS, 'Virgin Mobile', '8.0.1'],
+            ['+821001234567', 'en', CarrierNameMode::ALWAYS, 'LG U+', '8.13.17'],
+            ['+821001234567', 'fr', CarrierNameMode::ALWAYS, 'LG U+', '8.13.17'],
+            ['+821001234567', 'ko', CarrierNameMode::ALWAYS, '데이콤', '8.13.17'],
         ];
     }
 
