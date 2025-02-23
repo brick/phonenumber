@@ -615,6 +615,38 @@ class PhoneNumberTest extends TestCase
         ];
     }
 
+    /**
+     * @param string[] $expectedTimeZones
+     */
+    #[DataProvider('providerGetTimeZones')]
+    public function testGetTimeZones(
+        string $phoneNumber,
+        array $expectedTimeZones,
+        ?string $minimumUpstreamVersion = null,
+    ): void {
+        if ($minimumUpstreamVersion !== null) {
+            self::requireUpstreamVersion($minimumUpstreamVersion);
+        }
+
+        $timeZones = PhoneNumber::parse($phoneNumber)->getTimeZones();
+        self::assertSame($expectedTimeZones, $timeZones);
+    }
+
+    public static function providerGetTimeZones(): array
+    {
+        return [
+            ['+33600012345', ['Europe/Paris']],
+            ['+441614960000', ['Europe/London']],
+            ['+4412', []],
+            ['+447123456789', [
+                'Europe/Guernsey',
+                'Europe/Isle_of_Man',
+                'Europe/Jersey',
+                'Europe/London',
+            ], '8.10.23'],
+        ];
+    }
+
     public static function requireUpstreamVersion(string $version): void
     {
         $packageName = 'giggsey/libphonenumber-for-php';

@@ -10,6 +10,7 @@ use Stringable;
 use libphonenumber;
 use libphonenumber\geocoding\PhoneNumberOfflineGeocoder;
 use libphonenumber\PhoneNumberToCarrierMapper;
+use libphonenumber\PhoneNumberToTimeZonesMapper;
 use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberUtil;
 
@@ -281,6 +282,27 @@ final class PhoneNumber implements Stringable, JsonSerializable
         };
 
         return $carrierName === '' ? null : $carrierName;
+    }
+
+    /**
+     * Returns a list of time zones to which a phone number belongs.
+     *
+     * Example: ['Europe/Paris']
+     *
+     * Returns an empty array if the time zone is unknown.
+     *
+     * @return string[]
+     */
+    public function getTimeZones(): array
+    {
+        $timeZoneMapper = PhoneNumberToTimeZonesMapper::getInstance();
+        $timeZones = $timeZoneMapper->getTimeZonesForNumber($this->phoneNumber);
+
+        if ($timeZones === [PhoneNumberToTimeZonesMapper::UNKNOWN_TIMEZONE]) {
+            return [];
+        }
+
+        return $timeZones;
     }
 
     /**
