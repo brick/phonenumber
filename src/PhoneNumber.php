@@ -202,6 +202,11 @@ final class PhoneNumber implements Stringable, JsonSerializable
         return PhoneNumberUtil::getInstance()->formatOutOfCountryCallingNumber($this->phoneNumber, $regionCode);
     }
 
+    public function formatForMobileDialing(string $regionCallingFrom, bool $withFormatting): string
+    {
+        return PhoneNumberUtil::getInstance()->formatNumberForMobileDialing($this->phoneNumber, $regionCallingFrom, $withFormatting);
+    }
+
     public function isEqualTo(PhoneNumber $phoneNumber): bool
     {
         return $this->phoneNumber->equals($phoneNumber->phoneNumber);

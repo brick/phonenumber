@@ -461,6 +461,31 @@ class PhoneNumberTest extends TestCase
         ];
     }
 
+    #[DataProvider('providerFormatForMobileDialing')]
+    public function testFormatForMobileDialing(
+        string $phoneNumber,
+        string $regionCallingFrom,
+        bool $withFormatting,
+        string $expected,
+    ) : void {
+        $actual = PhoneNumber::parse($phoneNumber)->formatForMobileDialing($regionCallingFrom, $withFormatting);
+        self::assertSame($expected, $actual);
+    }
+
+    public static function providerFormatForMobileDialing() : array
+    {
+        return [
+            ['+33123456789', 'FR', false, '0123456789'],
+            ['+33123456789', 'FR', true, '01 23 45 67 89'],
+            ['+33123456789', 'BE', false, '+33123456789'],
+            ['+33123456789', 'BE', true, '+33 1 23 45 67 89'],
+            ['+33123456789', 'US', false, '+33123456789'],
+            ['+33123456789', 'US', true, '+33 1 23 45 67 89'],
+            ['+33123456789', 'CA', false, '+33123456789'],
+            ['+33123456789', 'CA', true, '+33 1 23 45 67 89'],
+        ];
+    }
+
     #[DataProvider('providerGetGeographicalAreaCode')]
     public function testGetGeographicalAreaCode(string $phoneNumber, string $areaCode) : void
     {
