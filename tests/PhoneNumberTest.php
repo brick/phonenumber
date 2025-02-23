@@ -136,14 +136,14 @@ class PhoneNumberTest extends TestCase
             [self::NZ_NUMBER, '01164 3 331 6005', 'US'],
             [self::NZ_NUMBER, '+64 3 331 6005', 'US'],
 
-            ['+6464123456', '64(0)64123456', 'NZ', '8.13.38'],
+            ['+6464123456', '64(0)64123456', 'NZ', '8.5.2'],
 
             // Check that using a '/' is fine in a phone number.
             [self::DE_NUMBER, '301/23456', 'DE'],
 
             // Check it doesn't use the '1' as a country calling code
             // when parsing if the phone number was already possible
-            ['+11234567890', '123-456-7890', 'US', '8.13.38']
+            ['+11234567890', '123-456-7890', 'US', '8.0.0']
         ];
     }
 
@@ -191,7 +191,7 @@ class PhoneNumberTest extends TestCase
 
             [PhoneNumberType::MOBILE, self::BS_MOBILE],
             [PhoneNumberType::MOBILE, self::GB_MOBILE],
-            [PhoneNumberType::MOBILE, self::IT_MOBILE, '8.13.38'],
+            [PhoneNumberType::MOBILE, self::IT_MOBILE, '8.9.11'],
             [PhoneNumberType::MOBILE, self::AR_MOBILE],
             [PhoneNumberType::MOBILE, '+4915123456789'],
 
@@ -419,17 +419,17 @@ class PhoneNumberTest extends TestCase
             // MX
             ['12345678900', self::MX_MOBILE1, PhoneNumberFormat::NATIONAL, '8.13.38'],
             ['+52 12345678900', self::MX_MOBILE1, PhoneNumberFormat::INTERNATIONAL, '8.13.38'],
-            ['+5212345678900', self::MX_MOBILE1, PhoneNumberFormat::E164],
+            ['+5212345678900', self::MX_MOBILE1, PhoneNumberFormat::E164, '8.13.38'],
 
             ['15512345678', self::MX_MOBILE2, PhoneNumberFormat::NATIONAL, '8.13.38'],
             ['+52 15512345678', self::MX_MOBILE2, PhoneNumberFormat::INTERNATIONAL, '8.13.38'],
-            ['+5215512345678', self::MX_MOBILE2, PhoneNumberFormat::E164],
+            ['+5215512345678', self::MX_MOBILE2, PhoneNumberFormat::E164, '8.13.38'],
 
-            ['33 1234 5678', self::MX_NUMBER1, PhoneNumberFormat::NATIONAL, '8.13.38'],
+            ['33 1234 5678', self::MX_NUMBER1, PhoneNumberFormat::NATIONAL, '8.10.23'],
             ['+52 33 1234 5678', self::MX_NUMBER1, PhoneNumberFormat::INTERNATIONAL],
             ['+523312345678', self::MX_NUMBER1, PhoneNumberFormat::E164],
 
-            ['821 123 4567', self::MX_NUMBER2, PhoneNumberFormat::NATIONAL, '8.13.38'],
+            ['821 123 4567', self::MX_NUMBER2, PhoneNumberFormat::NATIONAL, '8.10.23'],
             ['+52 821 123 4567', self::MX_NUMBER2, PhoneNumberFormat::INTERNATIONAL],
             ['+528211234567', self::MX_NUMBER2, PhoneNumberFormat::E164]
         ];
