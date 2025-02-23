@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.7.0](https://github.com/brick/phonenumber/releases/tag/0.7.0) - 2025-02-24
+
+💥 **BC breaks**
+
+- The `PhoneNumberParseException` constructor now takes a `libphonenumber\NumberParseException` instance
+
+This change is unlikely to affect you, unless you're throwing `PhoneNumberParseException` instances yourself.
+
+✨ **New features**
+
+- `PhoneNumberParseException` now has a `$errorType` property which contains a `PhoneNumberParseErrorType` enum
+- New methods:
+  - `PhoneNumber::formatForMobileDialing()`
+  - `PhoneNumber::getCarrierName()`
+  - `PhoneNumber::getTimeZones()`
+
 ## [0.6.0](https://github.com/brick/phonenumber/releases/tag/0.6.0) - 2023-11-26
 
 💥 **BC breaks**
