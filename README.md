@@ -109,7 +109,7 @@ $number->format(PhoneNumberFormat::NATIONAL); // 044 668 18 00
 $number->format(PhoneNumberFormat::RFC3966); // tel:+41-44-668-18-00
 ```
 
-#### Formatting to call from another country
+#### Formatting to call from a given country
 
 You may want to present a phone number to an audience in a specific country, with the correct international 
 prefix when required. This is what `formatForCallingFrom()` does:
@@ -121,7 +121,33 @@ $number->formatForCallingFrom('FR'); // 00 44 7123 456789
 $number->formatForCallingFrom('US'); // 011 44 7123 456789
 ```
 
-### Number types
+#### Formatting to call from a mobile phone in a given country
+
+If you want to present a number to dial from a mobile phone, you can use `formatForMobileDialing()`:
+
+```php
+$number = PhoneNumber::parse('+447123456789');
+
+$number->formatForMobileDialing('GB', withFormatting: false); // 07123456789
+$number->formatForMobileDialing('GB', withFormatting: true); // 07123 456789
+
+$number->formatForMobileDialing('FR', withFormatting: false); // +447123456789
+$number->formatForMobileDialing('FR', withFormatting: true); // +44 7123 456789
+```
+
+### Getting number information
+
+You can extract basic information from a phone number:
+
+```php
+$number = PhoneNumber::parse('+447123456789');
+
+$number->getRegionCode(); // GB
+$number->getCountryCode(); // 44
+$number->getNationalNumber(); // 7123456789
+```
+
+#### Number type
 
 In certain cases, it is possible to know the type of a phone number (fixed line, mobile phone, etc.), using
 the `getNumberType()` method, which returns a [PhoneNumberType](https://github.com/brick/phonenumber/blob/master/src/PhoneNumberType.php) enum value:
@@ -134,15 +160,40 @@ PhoneNumber::parse('+33123456789')->getNumberType(); // PhoneNumberType::FIXED_L
 If the type is unknown, the `PhoneNumberType::UNKNOWN` value is returned.
 Check the `PhoneNumberType` enum for all possible values.
 
-### Number information
+#### Description
 
-You can extract the following information from a phone number:
+You can get a human-readable description of a phone number:
 
 ```php
-$number = PhoneNumber::parse('+447123456789');
-echo $number->getRegionCode(); // GB
-echo $number->getCountryCode(); // 44
-echo $number->getNationalNumber(); // 7123456789
+PhoneNumber::parse('+33123456789')->getDescription(locale: 'en'); // France
+PhoneNumber::parse('+16509030000')->getDescription(locale: 'en'); // Mountain View, CA
+```
+
+#### Carrier name
+
+You can get the carrier name for a mobile phone number:
+
+```php
+$number = PhoneNumber::parse('+336789012345');
+$number->getCarrierName(languageCode: 'en'); // Orange France
+```
+
+Note that in countries that support mobile number portability, the carrier name for a phone number may no longer be
+correct. You can control whether the carrier name should be returned in this case, by passing a
+[CarrierNameMode](https://github.com/brick/phonenumber/blob/master/src/CarrierNameMode.php) enum:
+
+```php
+// null, because France supports mobile number portability
+$number->getCarrierName(languageCode: 'en', mode: CarrierNameMode::MOBILE_NO_PORTABILITY_ONLY);
+```
+
+#### Time zones
+
+You can get the time zones for a phone number:
+
+```php
+$number = PhoneNumber::parse('+14155552671');
+$number->getTimeZones(); // ['America/Los_Angeles']
 ```
 
 ### Example numbers
