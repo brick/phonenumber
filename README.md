@@ -38,7 +38,7 @@ Note that [these PHP versions are EOL](http://php.net/supported-versions.php) an
 
 ## Project status & release process
 
-While this library is still under development, it is well tested and should be stable enough to use in production environments.
+While this library is still under development, it is well tested and is considered stable enough to use in production environments.
 
 The current releases are numbered `0.x.y`. When a non-breaking change is introduced (adding new methods, optimizing existing code, etc.), `y` is incremented.
 
@@ -80,14 +80,15 @@ catch (PhoneNumberParseException $e) {
 In most cases, it is recommended to perform an extra step of validation with `isValidNumber()` or `isPossibleNumber()`:
 
 ```php
-if (! $number->isPossibleNumber()) {
-    // a more lenient and faster check than `isValidNumber()`
-}
-
-if (! $number->isValidNumber()) {
+if ($number->isValidNumber()) {
     // strict check relying on up-to-date metadata library
 }
 
+// or
+
+if ($number->isPossibleNumber()) {
+    // a more lenient and faster check than `isValidNumber()`
+}
 ```
 
 As a rule of thumb, do the following:
@@ -171,7 +172,7 @@ PhoneNumber::parse('+16509030000')->getDescription(locale: 'en'); // Mountain Vi
 
 #### Carrier name
 
-You can get the carrier name for a mobile phone number:
+For some phone numbers, it is possible to get the carrier name:
 
 ```php
 $number = PhoneNumber::parse('+336789012345');
@@ -189,7 +190,7 @@ $number->getCarrierName(languageCode: 'en', mode: CarrierNameMode::MOBILE_NO_POR
 
 #### Time zones
 
-You can get the time zones for a phone number:
+You can get the time zones that typically match a phone number:
 
 ```php
 $number = PhoneNumber::parse('+14155552671');
