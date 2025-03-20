@@ -63,7 +63,10 @@ final class PhoneNumber implements Stringable, JsonSerializable
      */
     public static function getExampleNumber(string $regionCode, PhoneNumberType $phoneNumberType = PhoneNumberType::FIXED_LINE) : PhoneNumber
     {
-        $phoneNumber = PhoneNumberUtil::getInstance()->getExampleNumberForType($regionCode, $phoneNumberType->value);
+        $phoneNumber = PhoneNumberUtil::getInstance()->getExampleNumberForType(
+            $regionCode,
+            libphonenumber\PhoneNumberType::from($phoneNumberType->value),
+        );
 
         if ($phoneNumber === null) {
             throw new PhoneNumberException('No example number is available for the given region and type.');
@@ -179,7 +182,7 @@ final class PhoneNumber implements Stringable, JsonSerializable
     public function getNumberType() : PhoneNumberType
     {
         return PhoneNumberType::from(
-            PhoneNumberUtil::getInstance()->getNumberType($this->phoneNumber),
+            PhoneNumberUtil::getInstance()->getNumberType($this->phoneNumber)->value,
         );
     }
 
@@ -188,7 +191,10 @@ final class PhoneNumber implements Stringable, JsonSerializable
      */
     public function format(PhoneNumberFormat $format) : string
     {
-        return PhoneNumberUtil::getInstance()->format($this->phoneNumber, $format->value);
+        return PhoneNumberUtil::getInstance()->format(
+            $this->phoneNumber,
+            libphonenumber\PhoneNumberFormat::from($format->value),
+        );
     }
 
     /**
