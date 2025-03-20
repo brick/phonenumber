@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.8.0](https://github.com/brick/phonenumber/releases/tag/0.8.0) - 2025-03-20
+
+✨ **Compatibility**
+
+- Compatibility with `libphonenumber-for-php` `v9`
+
+💥 **BC breaks**
+
+- Dropped compatibility with `libphonenumber-for-php` `v7` and `v8`
+
 ## [0.7.0](https://github.com/brick/phonenumber/releases/tag/0.7.0) - 2025-02-24
 
 💥 **BC breaks**

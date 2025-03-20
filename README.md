@@ -16,8 +16,7 @@ itself a port of [Google's libphonenumber](https://github.com/googlei18n/libphon
 It provides an equivalent functionality, with the following implementation differences:
 
 - `PhoneNumber` is an immutable class; it can be safely passed around without having to worry about the risk for it to be changed;
-- `PhoneNumber` is not just a mere data container, but provides all the methods to parse, format and validate phone numbers; it transparently encapsulates `PhoneNumberUtil`;
-- `PhoneNumberFormat` and `PhoneNumberType` are native PHP enums.
+- `PhoneNumber` is not just a mere data container, but provides all the methods to parse, format and validate phone numbers; it transparently encapsulates services such as `PhoneNumberUtil`;
 
 ## Installation
 
