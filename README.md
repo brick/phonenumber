@@ -9,6 +9,7 @@ A phone number library for PHP.
 [![Latest Stable Version](https://poser.pugx.org/brick/phonenumber/v/stable)](https://packagist.org/packages/brick/phonenumber)
 [![Total Downloads](https://poser.pugx.org/brick/phonenumber/downloads)](https://packagist.org/packages/brick/phonenumber)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](http://opensource.org/licenses/MIT)
+[![libs.tech recommends](https://libs.tech/project/38308109/badge.svg)](https://libs.tech/project/38308109/phonenumber)
 
 This library is a thin wrapper around [giggsey/libphonenumber-for-php](https://github.com/giggsey/libphonenumber-for-php),
 itself a port of [Google's libphonenumber](https://github.com/googlei18n/libphonenumber).
