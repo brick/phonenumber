@@ -8,18 +8,35 @@ use BackedEnum;
 use Brick\PhoneNumber\PhoneNumberFormat;
 use Brick\PhoneNumber\PhoneNumberParseErrorType;
 use Brick\PhoneNumber\PhoneNumberType;
+use libphonenumber\NumberParseException;
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
 
 /**
  * Tests that enums are up-to-date with libphonenumber constants.
  */
 class EnumTest extends TestCase
 {
+    public function testPhoneNumberFormats(): void
+    {
+        self::assertEnumEqualsEnum(\libphonenumber\PhoneNumberFormat::class, PhoneNumberFormat::class);
+    }
+
+    public function testPhoneNumberTypes(): void
+    {
+        self::assertEnumEqualsEnum(\libphonenumber\PhoneNumberType::class, PhoneNumberType::class);
+    }
+
+    public function testPhoneNumberParseErrorTypes(): void
+    {
+        self::assertEnumEqualsConstants(NumberParseException::class, PhoneNumberParseErrorType::class);
+    }
+
     /**
      * @param class-string<BackedEnum> $enumClassExpected The name or the reference libphonenumber enum class.
      * @param class-string<BackedEnum> $enumClassActual   The name of the enum class to test against the reference class.
      */
-    private static function assertEnumEqualsEnum(string $enumClassExpected, string $enumClassActual) : void
+    private static function assertEnumEqualsEnum(string $enumClassExpected, string $enumClassActual): void
     {
         self::assertSame(
             self::enumToMap($enumClassExpected),
@@ -31,9 +48,9 @@ class EnumTest extends TestCase
      * @param class-string             $classExpected   The name or the reference libphonenumber class.
      * @param class-string<BackedEnum> $enumClassActual The name of the enum class to test against the reference class.
      */
-    private static function assertEnumEqualsConstants(string $classExpected, string $enumClassActual) : void
+    private static function assertEnumEqualsConstants(string $classExpected, string $enumClassActual): void
     {
-        $expected = (new \ReflectionClass($classExpected))->getConstants();
+        $expected = (new ReflectionClass($classExpected))->getConstants();
         $actual = self::enumToMap($enumClassActual);
 
         self::assertSame($expected, $actual);
@@ -53,20 +70,5 @@ class EnumTest extends TestCase
         }
 
         return $values;
-    }
-
-    public function testPhoneNumberFormats() : void
-    {
-        self::assertEnumEqualsEnum(\libphonenumber\PhoneNumberFormat::class, PhoneNumberFormat::class);
-    }
-
-    public function testPhoneNumberTypes() : void
-    {
-        self::assertEnumEqualsEnum(\libphonenumber\PhoneNumberType::class, PhoneNumberType::class);
-    }
-
-    public function testPhoneNumberParseErrorTypes() : void
-    {
-        self::assertEnumEqualsConstants(\libphonenumber\NumberParseException::class, PhoneNumberParseErrorType::class);
     }
 }

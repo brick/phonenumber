@@ -5,14 +5,17 @@ declare(strict_types=1);
 namespace Brick\PhoneNumber;
 
 use JsonSerializable;
-use Override;
-use Stringable;
 use libphonenumber;
 use libphonenumber\geocoding\PhoneNumberOfflineGeocoder;
+use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberToCarrierMapper;
 use libphonenumber\PhoneNumberToTimeZonesMapper;
-use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberUtil;
+use Override;
+use Stringable;
+
+use function assert;
+use function substr;
 
 /**
  * A phone number.
@@ -38,15 +41,13 @@ final class PhoneNumber implements Stringable, JsonSerializable
      * @param string      $phoneNumber The phone number to parse.
      * @param string|null $regionCode  The region code to assume, if the number is not in international format.
      *
-     * @return PhoneNumber
-     *
      * @throws PhoneNumberParseException
      */
-    public static function parse(string $phoneNumber, ?string $regionCode = null) : PhoneNumber
+    public static function parse(string $phoneNumber, ?string $regionCode = null): PhoneNumber
     {
         try {
             return new PhoneNumber(
-                PhoneNumberUtil::getInstance()->parse($phoneNumber, $regionCode)
+                PhoneNumberUtil::getInstance()->parse($phoneNumber, $regionCode),
             );
         } catch (NumberParseException $e) {
             throw new PhoneNumberParseException($e);
@@ -57,11 +58,9 @@ final class PhoneNumber implements Stringable, JsonSerializable
      * @param string          $regionCode      The region code.
      * @param PhoneNumberType $phoneNumberType The phone number type, defaults to a fixed line.
      *
-     * @return PhoneNumber
-     *
      * @throws PhoneNumberException If no example number is available for this region and type.
      */
-    public static function getExampleNumber(string $regionCode, PhoneNumberType $phoneNumberType = PhoneNumberType::FIXED_LINE) : PhoneNumber
+    public static function getExampleNumber(string $regionCode, PhoneNumberType $phoneNumberType = PhoneNumberType::FIXED_LINE): PhoneNumber
     {
         $phoneNumber = PhoneNumberUtil::getInstance()->getExampleNumberForType(
             $regionCode,
@@ -79,10 +78,8 @@ final class PhoneNumber implements Stringable, JsonSerializable
      * Returns the country code of this PhoneNumber.
      *
      * The country code is a series of 1 to 3 digits, as defined per the E.164 recommendation.
-     *
-     * @return string
      */
-    public function getCountryCode() : string
+    public function getCountryCode(): string
     {
         $countryCode = $this->phoneNumber->getCountryCode();
         assert($countryCode !== null);
@@ -101,10 +98,8 @@ final class PhoneNumber implements Stringable, JsonSerializable
      *  - some geographical numbers have no area codes.
      *
      * If this number has no area code, an empty string is returned.
-     *
-     * @return string
      */
-    public function getGeographicalAreaCode() : string
+    public function getGeographicalAreaCode(): string
     {
         $phoneNumberUtil = PhoneNumberUtil::getInstance();
 
@@ -119,10 +114,8 @@ final class PhoneNumber implements Stringable, JsonSerializable
      * Returns the national number of this PhoneNumber.
      *
      * The national number is a series of digits.
-     *
-     * @return string
      */
-    public function getNationalNumber() : string
+    public function getNationalNumber(): string
     {
         $nationalNumber = $this->phoneNumber->getNationalNumber();
         assert($nationalNumber !== null);
@@ -140,7 +133,7 @@ final class PhoneNumber implements Stringable, JsonSerializable
      *
      * @return string|null The region code, or null if the number does not map to a geographic region.
      */
-    public function getRegionCode() : ?string
+    public function getRegionCode(): ?string
     {
         $regionCode = PhoneNumberUtil::getInstance()->getRegionCodeForNumber($this->phoneNumber);
 
@@ -155,10 +148,8 @@ final class PhoneNumber implements Stringable, JsonSerializable
      * Returns whether this phone number is a possible number.
      *
      * Note this provides a more lenient and faster check than `isValidNumber()`.
-     *
-     * @return bool
      */
-    public function isPossibleNumber() : bool
+    public function isPossibleNumber(): bool
     {
         return PhoneNumberUtil::getInstance()->isPossibleNumber($this->phoneNumber);
     }
@@ -168,10 +159,8 @@ final class PhoneNumber implements Stringable, JsonSerializable
      *
      * Note this doesn't verify the number is actually in use,
      * which is impossible to tell by just looking at a number itself.
-     *
-     * @return bool
      */
-    public function isValidNumber() : bool
+    public function isValidNumber(): bool
     {
         return PhoneNumberUtil::getInstance()->isValidNumber($this->phoneNumber);
     }
@@ -179,7 +168,7 @@ final class PhoneNumber implements Stringable, JsonSerializable
     /**
      * Returns the type of this phone number.
      */
-    public function getNumberType() : PhoneNumberType
+    public function getNumberType(): PhoneNumberType
     {
         return PhoneNumberType::from(
             PhoneNumberUtil::getInstance()->getNumberType($this->phoneNumber)->value,
@@ -189,7 +178,7 @@ final class PhoneNumber implements Stringable, JsonSerializable
     /**
      * Returns a formatted string representation of this phone number.
      */
-    public function format(PhoneNumberFormat $format) : string
+    public function format(PhoneNumberFormat $format): string
     {
         return PhoneNumberUtil::getInstance()->format(
             $this->phoneNumber,
@@ -200,11 +189,9 @@ final class PhoneNumber implements Stringable, JsonSerializable
     /**
      * Formats this phone number for out-of-country dialing purposes.
      *
-     * @param string $regionCode The ISO 3166-1 alpha-2 country code
-     *
-     * @return string
+     * @param string $regionCode The ISO 3166-1 alpha-2 country code.
      */
-    public function formatForCallingFrom(string $regionCode) : string
+    public function formatForCallingFrom(string $regionCode): string
     {
         return PhoneNumberUtil::getInstance()->formatOutOfCountryCallingNumber($this->phoneNumber, $regionCode);
     }
@@ -259,15 +246,13 @@ final class PhoneNumber implements Stringable, JsonSerializable
      * @param string|null $userRegion The region code for a given user. This region will be omitted from the description
      *                                if the phone number comes from this region. It is a two-letter uppercase CLDR
      *                                region code.
-     *
-     * @return string|null
      */
-    public function getDescription(string $locale, ?string $userRegion = null) : ?string
+    public function getDescription(string $locale, ?string $userRegion = null): ?string
     {
         $description = PhoneNumberOfflineGeocoder::getInstance()->getDescriptionForNumber(
             $this->phoneNumber,
             $locale,
-            $userRegion
+            $userRegion,
         );
 
         if ($description === '') {
@@ -327,11 +312,9 @@ final class PhoneNumber implements Stringable, JsonSerializable
 
     /**
      * Returns a string representation of this phone number in international E164 format.
-     *
-     * @return string
      */
     #[Override]
-    public function __toString() : string
+    public function __toString(): string
     {
         return $this->format(PhoneNumberFormat::E164);
     }
