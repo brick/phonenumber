@@ -5,8 +5,8 @@ on:
   pull_request:
 
 env:
-  PHPSTAN_PHP_VERSION: "8.4"
-  COVERAGE_PHP_VERSION: "8.4"
+  PHPSTAN_PHP_VERSION: "8.5"
+  COVERAGE_PHP_VERSION: "8.5"
 
 jobs:
   phpstan:
@@ -46,6 +46,7 @@ jobs:
           - "8.2"
           - "8.3"
           - "8.4"
+          - "8.5"
         deps:
           - "highest"
         include:
