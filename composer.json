@@ -14,8 +14,8 @@
     "giggsey/libphonenumber-for-php": "^9.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "^10.4",
-    "vimeo/psalm": "6.8.6"
+    "phpstan/phpstan": "2.1.42",
+    "phpunit/phpunit": "^10.4"
   },
   "autoload": {
     "psr-4": {
