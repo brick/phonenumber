@@ -30,7 +30,7 @@ jobs:
 
   coding-standard:
     name: Coding Standard
-    uses: brick/coding-standard/.github/workflows/coding-standard.yml@v4
+    uses: brick/coding-standard/.github/workflows/coding-standard.yml@v6
     with:
       working-directory: "tools/ecs"
 
@@ -47,6 +47,7 @@ jobs:
           - "8.3"
           - "8.4"
           - "8.5"
+          - "8.6"
         deps:
           - "highest"
         include:
